@@ -4,6 +4,7 @@ import EventCarousel from './EventCarousel';
 import instance,  { BASE_URL } from '../../utils/axios';
 import { Link, useParams } from 'react-router-dom';
 import Footer from './Footer';
+import Feedback from './Feedback';
 import Menucard from './Menucard';
 
 function SingleView(props) {
@@ -11,8 +12,8 @@ function SingleView(props) {
  
   const [event, setEvent] = useState({});
   const [menuData, setMenuData] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
  
-
   
  
   
@@ -43,10 +44,23 @@ function SingleView(props) {
         fetchData();
       }, []);
     
+      useEffect(() => {
+        // Fetch feedbacks for the event
+        instance.get(`http://127.0.0.1:8000/events/feedback/?event=${id}`)
+            .then((response) => {
+              console.log('Feedbacks response:', response.data);
+                setFeedbacks(response.data);
+            })
+            .catch((error) => {
+                console.error('Error fetching feedbacks:', error);
+            });
+    }, [id]);
+    
+    const handleFeedbackSubmit = (newFeedback) => {
+      console.log('New feedback submitted:', newFeedback);
+        setFeedbacks((prevFeedbacks) => [...prevFeedbacks, newFeedback]);
+    };    
       
- 
-
- 
 
 
   return (
@@ -153,7 +167,16 @@ function SingleView(props) {
         
         
         </div>
-        
+          <Feedback eventId={id} onFeedbackSubmit={handleFeedbackSubmit} />
+          <div>
+              <h3>Comments:</h3>
+              <ul>
+                  {feedbacks.map((feedback) => (
+                      <li key={feedback.id}>{feedback.comment}</li>
+                  ))}
+              </ul>
+          </div>
+       
         <Footer />
         
     </div>

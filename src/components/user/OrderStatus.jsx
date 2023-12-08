@@ -58,14 +58,20 @@ const OrderStatus = () => {
     <div className='text-center pt-20'>
       {isPaymentCanceled && <h2>Order Canceled</h2>}
       {isSuccess && (
-        <div>
-          <h2>Order Successful</h2>
-          {/* <p>Amount: {amount}</p>
-          <p>Currency:inr</p> */}
-        </div>
+       <div className="flex flex-col items-center justify-center h-screen">
+       <img
+         src="https://i.pinimg.com/originals/32/b6/f2/32b6f2aeeb2d21c5a29382721cdc67f7.gif" 
+         alt="Payment Success GIF"
+         className="w-64 h-60 mb-8"
+       />
+       <h2 className="text-2xl font-semibold text-green-500">Payment Successfully Completed</h2>
+       <Link to="/" className="mt-4 bg-blue-300 text-white px-4 py-2 rounded-lg">
+         Go to Home
+       </Link>
+     </div>
       )}
       <Link to='/mybookings'><button className='mt-4 mx-auto font-serif text-white bg-customColorA border border-rounded'>Back to Booking</button></Link>
-      <Link to='/'><button className='mt-4 mx-auto  font-serif text-white bg-customColorA'>Home</button></Link>
+     
     </div>
   );
 };

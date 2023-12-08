@@ -31,7 +31,10 @@ import OrderStatus from './components/user//OrderStatus';
 import AllBookings from './components/admin/Bookings';
 import ServicerBookings from './components/servicer/Bookings';
 import ServicerDashboard from './components/servicer/ServicerDashboard';
-import Chat from './components/chat/Chat';
+import ChatGroup from './pages/chatGroups';
+import CreateRoom from './components/servicer/CreateRoom';
+
+import FeedbackPage from './components/user/Feedback';
 function App() {
   return (
     <div className="App">
@@ -68,7 +71,10 @@ function App() {
           <Route path='/allbookings' Component={AllBookings} />
           <Route path='/servicerbookings' Component={ServicerBookings}/>
           <Route path="/servicerdashboard" Component={ServicerDashboard} />
-          <Route path="/chat" Component={Chat} />
+          <Route path='/chat' exact Component={ChatGroup} />
+          <Route path='/createRoom' Component={CreateRoom}/>
+
+          <Route path="/feedback" Component={FeedbackPage} />
         
 
           

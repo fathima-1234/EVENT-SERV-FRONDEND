@@ -14,6 +14,7 @@ import Footer from './Footer';
 
 
 
+
 function EventDetail() {
   const { id } = useParams();
   const [event, setEvent] = useState(null);
@@ -36,6 +37,7 @@ function EventDetail() {
   const [selectedMenus, setSelectedMenus] = useState([]);
   const [menus, setMenus] = useState([]);
   const [showMenus, setShowMenus] = useState(false);
+  
   const [userDetails, setUserDetails] = useState({
     email: ''});
     useEffect(() => {
@@ -237,7 +239,9 @@ function EventDetail() {
     }
   };
   
-  
+ 
+
+
 
   return (
     <div className='w-full h-full  relative'>
@@ -422,6 +426,8 @@ function EventDetail() {
         )}
        
       </div>
+    
+        
     
       <Footer />
     </div>

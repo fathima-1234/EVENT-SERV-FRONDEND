@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-
+import { FiPlus, FiMessageSquare } from "react-icons/fi";
 import {FaHamburger } from "react-icons/fa";
 import {FaCheese } from "react-icons/fa6";
 import { CiLogout } from 'react-icons/ci';
@@ -61,6 +61,23 @@ export default function Sidebar() {
         >    <FaHamburger size={20} className='px-3' />
           Dashborad
         </NavLink>
+        
+        <NavLink
+        to='/createRoom'
+        className='px-1 list-none text-white hover:text-customColorC transition duration-300'
+        activeClassName='text-customColorC'
+      >
+      <FiPlus size={45} className='px-3' />
+      <h3 className='font-semibold text-black'>Create Room</h3>
+      </NavLink>
+      <NavLink
+        to='/chat'
+        className='px-1 list-none text-white hover:text-customColorC transition duration-300'
+        activeClassName='text-customColorC'
+      >
+      <FiMessageSquare size={45} className='px-3' />
+      <h3 className='font-semibold text-black'>Messages</h3>
+      </NavLink>
         <CiLogout
           size={30}
           className='cursor-pointer text-black hover:text-customColorC transition duration-300'
