@@ -72,7 +72,41 @@ export default function ServicerBookings() {
     return filteredbookings;
   };
 
-  const filteredbookings = handleSearch();
+  const filteredbookings = handleSearch()
+
+
+  const handleStatusChange = async (newStatus, bookingId) => {
+    try {
+      const token = localStorage.getItem('token');
+  
+      if (token) {
+        instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      }
+  
+      // Make an API request to update the booking status
+      const response = await instance.patch(`http://127.0.0.1:8000/api/stripe/updateBookingStatus/${bookingId}/`, {
+        status: newStatus,
+      });
+  
+      // Handle success or display a notification
+      toast.success(`Booking status updated to ${newStatus}`);
+      
+      // Fetch bookings again to update the UI
+      getbookings(userId);
+    } catch (error) {
+      console.error('Could not update booking status', error);
+      console.error('API error response:', error.response);
+      // Handle error or display a notification
+      toast.error('Failed to update booking status');
+    }
+  };
+  
+  
+  
+  
+  
+ 
+ 
 
   return (
 
@@ -81,7 +115,7 @@ export default function ServicerBookings() {
 <div className='flex h-full bg-acontent mt-3'>
   <Toaster position='top-center' reverseOrder={false} limit={1} />
 
-  <div className='px-5 w-full h-auto min-h-screen mx-5 mt-2 py-8  flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl'>
+  <div className='px-5 w-full h-auto font-serif min-h-screen mx-5 mt-2 py-8  flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl'>
     <div className='w-full h-screen px-3 '>
       <div className="w-full p-5 flex justify-between">
         <h1 className='  text-3xl font-bold text-center text-custom-red '>My Bookings</h1>
@@ -101,6 +135,8 @@ export default function ServicerBookings() {
               <th scope="col" className="px-6 py-4 font-large text-gray-900">Booking date</th>
               <th scope="col" className="px-6 py-4 font-large text-gray-900">Amount</th>
               <th scope="col" className="px-6 py-4 font-large text-gray-900">Status</th>
+              <th scope="col" className="px-6 py-4 font-large text-gray-900">Action</th>
+            
             </tr>
           </thead>
           <tbody className='divide-y divide-gray-100 border-t border-gray-100'>
@@ -135,6 +171,30 @@ export default function ServicerBookings() {
                       </div>
                     </p>
                   </td>
+                  <td className='px-6 py-4'>
+  <div>
+    <select
+      value={booking.status}
+      onChange={(e) => handleStatusChange(e.target.value, booking.id)}
+      className="border border-primaryBlue border-solid focus:outline-none px-2 rounded-lg"
+    >
+      <option value="pending">Pending</option>
+      <option value="completed">Completed</option>
+      <option value="rejected">Rejected</option>
+      <option value="given">Given</option>
+    </select>
+  </div>
+</td>
+{/* <td className='px-6 py-4'>
+  <p>
+    <div className={booking.status}>
+      {booking.status.toUpperCase()}
+    </div>
+  </p>
+</td> */}
+
+
+
                 </tr>
               ))
             ) : (

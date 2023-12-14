@@ -149,15 +149,10 @@ function Event1() {
 
   return (
     <div>
-      <Navbar1 />
+      <Navbar1 className="fixed top-0 w-full bg-white shadow-md z-50"  />
 
       <section className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
-        <div className="text-center pb-12">
-          <h1 className="font-Playball text-3xl md:text-4xl lg:text-5xl font-heading text-customColorA mt-20">
-            Find and Search Servicers
-          </h1>
-        
-        </div>
+       
 
         <div className="max-w-2xl mx-auto">
           <form className="flex items-center" onSubmit={handleSearch}>

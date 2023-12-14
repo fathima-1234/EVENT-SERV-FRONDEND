@@ -48,20 +48,17 @@ function Menu() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             { menuData.map((menu) => (
-              <div
-                key={menu.id}
-                className="w-full bg-black rounded-lg p-12 flex flex-col justify-center items-center black-cover"
-                style={{
-                  backgroundImage: `url(${BASE_URL}${menu.image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  backgroundRepeat: "no-repeat",
-                }}
-                // onClick={() => handleCategoryClick(category.id)}
-              >
-                
-                <div className="text-center relative">
-                  <p className="text-xl text-white font-serif mb-2">{menu.name}</p>
+             
+              
+                <div key={menu.id} className="bg-white rounded-lg p-6 shadow-md">
+                  <img
+                    src={`${BASE_URL}${menu.image}`}
+                    alt={menu.name}
+                    className="w-full h-40 object-cover mb-4 rounded-md"
+                  />
+                <div className="text-center ">
+                  <p className="text-xl text-black font-serif mb-2">{menu.name}</p>
+                  <p className="text-sm text-gray-300 font-serif">{menu.description}</p>
                 </div>
                 </div>
             

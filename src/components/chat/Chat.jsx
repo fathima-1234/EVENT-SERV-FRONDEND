@@ -28,9 +28,9 @@ const ChatComponent = () => {
       const userData = JSON.parse(localStorage.getItem('user'));
       setAuthor(userData.userID);
   
-      if (userData.is_renter) {
+      if (userData.is_servicer) {
         instance
-          .get(`rooms/?servicer=${userData.userID}`) // Fetch only servicer's rooms
+          .get(`http://127.0.0.1:8000/chat/rooms/?servicer=${userData.userID}`) // Fetch only servicer's rooms
           .then((response) => {
             setRooms(response.data);
             console.log(response.data);
@@ -68,7 +68,7 @@ const ChatComponent = () => {
   useEffect(() => {
     if (activeRoomId) {
       socketRef.current = new WebSocket(`wss://localhost:8000/ws/chat/${activeRoomId}/`);
-
+     
       socketRef.current.onmessage = (event) => {
         const message = JSON.parse(event.data);
         setMessages((prevMessages) => [...prevMessages, message]);
@@ -119,8 +119,12 @@ const ChatComponent = () => {
           }
         });
       
-      if (socketRef.current) {
+      // if (socketRef.current) {
+      //   socketRef.current.send(JSON.stringify(message));
+     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
         socketRef.current.send(JSON.stringify(message));
+      }else {
+        console.error('WebSocket connection is not open.');
       }
   
       setNewMessage('');
@@ -146,14 +150,21 @@ const ChatComponent = () => {
   }, [messages]);
 
 const userIsServicer = user && user.is_servicer;
+const isUserMessage = (message) => message.author === user.userID && message.room.servicer.id === user.userID;
+const isServicerMessage = (message) => message.author === message.room.servicer.id && message.room.servicer.id === user.userID;
 
-  const filteredMessages = userIsServicer
-    ? messages.filter(message => message.room.servicer.id === user.userID)
-    : messages;
+const filteredMessages = messages.filter((message) => {
+  if (message.room && message.room.servicer) {
+    return isUserMessage(message) || isServicerMessage(message);
+  }
+  return false;
+});
+
+
 
 
   return (
-    <div className="flex h-screen   rounded-md bg-gray-200">
+    <div className="flex h-screen  font-serif rounded-md bg-gray-200">
       <ChatSidebar
         rooms={rooms}
         activeRoomId={activeRoomId}
@@ -165,8 +176,10 @@ const userIsServicer = user && user.is_servicer;
             <h2 className="text-xl font-bold">Messages</h2>
           </div>
           <div className="flex-grow p-6 overflow-y-auto">
-            {messages.length > 0 ? (
-              messages.map((message, index) => (
+              {messages.length > 0 ? (
+              messages.map((message, index) => (  
+  
+              
                 <div
                   key={index}
                   ref={scroll}

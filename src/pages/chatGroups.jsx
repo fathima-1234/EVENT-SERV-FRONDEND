@@ -1,5 +1,5 @@
 import React from "react";
-import NavbarComponent from "../components/user/Navbar";
+import NavbarComponent from "../components/user/Navbar1";
 import Chat from "../components/chat/Chat";
 import NavbarComponentServicer from "../components/servicer/Sidebar";
 const ChatGroup = () => {

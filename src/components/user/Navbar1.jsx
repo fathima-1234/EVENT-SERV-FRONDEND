@@ -66,6 +66,11 @@ function NavBar1() {
             Home
           </li>
         </Link>
+        <Link to='/home-list-event'>
+          <li className='px-1 list-none text-black font-serif hover:text-customColorC transition duration-300'>
+            Events
+          </li>
+        </Link>
         {user_auth ? (
           <>
             <Link to='/mybookings'>
@@ -86,19 +91,15 @@ function NavBar1() {
         </Link>
       </>
         ) : null}
-        <Link to='/home-list-event'>
-          <li className='px-1 list-none text-black font-serif hover:text-customColorC transition duration-300'>
-            Events
-          </li>
-        </Link>
+       
        
       </div>
 
       {user_auth ? (
         <div className='flex gap-2 items-center'>
-        {/* <Link to='/chat'>
-            <FaEnvelope className='text-black text-2xl  hover:text-customColorC transition duration-300' />
-          </Link> */}
+        <Link to='/chat'>
+            <FaEnvelope className='text-customColorA text-2xl  hover:text-customColorC transition duration-300' />
+          </Link>
           <button
             className='px-4 py-2 font-serif bg-customColorA mx-2 text-black shadow-xl rounded-xl transition duration-300 ease-in-out transform hover:scale-105'
             onClick={logout}

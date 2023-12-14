@@ -39,9 +39,9 @@ function Servicercard1() {
   return (
     <div className="w-full">
   
-     <h1 className='text-center py-12 text-3xl font-Playball'> Our Events</h1>
+     {/* <h1 className='text-center py-12 text-xl font-serif'> Our Events</h1> */}
      
-        
+     <h1 className='text-3xl mb-[70px] text-center py-12 '>What We Offer</h1>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
             { categoryData.map((category) => (
@@ -66,7 +66,7 @@ function Servicercard1() {
     
    
       <div className='text-center mb-10'>
-        <Link to='/home-list-event' className="p-2 overflow-hidden rounded-md bg-customColorD hover:bg-customColorA text-sm font-serif text-black">
+        <Link to='/home-list-event' className="p-2 overflow-hidden rounded-md bg-customColorA hover:bg-customColorD text-sm font-serif text-black">
           See All Events
         </Link>
       </div>

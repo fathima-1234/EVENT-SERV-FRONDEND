@@ -42,7 +42,7 @@ export default function CreateRoom() {
   };
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex items-center font-serif justify-center h-screen">
       <Card color="transparent" shadow={false} className="w-96">
         <Toaster position="top-center" reverseOrder={false} limit={1} />
         <Typography variant="h4" color="blue-gray" className="font-serif mt-3 text-center">
@@ -64,6 +64,7 @@ export default function CreateRoom() {
             />
             <Input
               size="lg"
+             
               label="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}

@@ -84,7 +84,7 @@ function Login() {
   
   
   return (
-    <div className="h-screen flex items-center justify-center bg-gray-100">
+    <div className="h-screen flex items-center justify-center font-serif bg-gray-100">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-full sm:w-96 bg-white rounded-lg shadow p-8">
         <h1 className="text-3xl  text-center text-customColorA mb-8">USER LOGIN</h1>

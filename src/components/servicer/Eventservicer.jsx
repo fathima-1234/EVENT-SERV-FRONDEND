@@ -252,7 +252,7 @@ console.log(formData,'asdfghj');
   return (
     <div className="">
       <Sidebar />
-      <div className="px-5 w-full h-auto min-h-screen mx-5 mt-2 py-8 font-poppins flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl">
+      <div className="px-5 w-full h-auto min-h-screen mx-5 mt-2 py-8 font-serif flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl">
         <div className="w-full h-screen px-3 font-poppins">
           <h1 className="text-3xl font-bold text-center text-custom-red mt-10 mb-6">Your Events</h1>
           <div className="w-full p-5 mb-10">

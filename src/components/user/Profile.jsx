@@ -186,7 +186,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="w-full h-screen flex flex-col bg-customColorA">
+    <div className="w-full h-screen flex flex-col">
       <Toaster position='top-center' limit={3} />
       <div className="w-full h-20 flex items-center">
       <Navbar1 />
@@ -213,7 +213,10 @@ const Profile = () => {
             <p className="text-lg font-serif mb-2">{userData.email}</p>
 
             <div className="text-right">
-              <button onClick={openModal} className="bg-slate-600 text-white rounded-md ">Edit Profile</button>
+              <button onClick={openModal}
+              className="bg-customColorA hover:bg-slate-700 focus:ring focus:ring-slate-700 text-black rounded-full px-4 py-2 transition duration-300"
+              >Edit Profile
+              </button>
               {/* Pass userData and saveChanges to your modal */}
               <EditProfileModal
                 isOpen={isModalOpen}

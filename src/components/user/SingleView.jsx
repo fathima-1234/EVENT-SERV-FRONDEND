@@ -4,15 +4,14 @@ import EventCarousel from './EventCarousel';
 import instance,  { BASE_URL } from '../../utils/axios';
 import { Link, useParams } from 'react-router-dom';
 import Footer from './Footer';
-import Feedback from './Feedback';
-import Menucard from './Menucard';
+
 
 function SingleView(props) {
   const { id } = useParams();
  
   const [event, setEvent] = useState({});
   const [menuData, setMenuData] = useState([]);
-  const [feedbacks, setFeedbacks] = useState([]);
+
  
   
  
@@ -44,28 +43,12 @@ function SingleView(props) {
         fetchData();
       }, []);
     
-      useEffect(() => {
-        // Fetch feedbacks for the event
-        instance.get(`http://127.0.0.1:8000/events/feedback/?event=${id}`)
-            .then((response) => {
-              console.log('Feedbacks response:', response.data);
-                setFeedbacks(response.data);
-            })
-            .catch((error) => {
-                console.error('Error fetching feedbacks:', error);
-            });
-    }, [id]);
-    
-    const handleFeedbackSubmit = (newFeedback) => {
-      console.log('New feedback submitted:', newFeedback);
-        setFeedbacks((prevFeedbacks) => [...prevFeedbacks, newFeedback]);
-    };    
       
-
+    
 
   return (
     <div>
-      <Navbar1 />
+      <Navbar1 className="fixed top-0 w-full bg-white shadow-md z-50" />
      
       {event ? <EventCarousel event={event} /> : <Navbar1 />}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-36">
@@ -94,7 +77,7 @@ function SingleView(props) {
 </p>
 
 <p className='text-black'> {event.is_veg ? 'Vegitarian' : 'Veg&NonVeg'}</p>
-                {/* <p className='text-gray-600'>Servicer name: {event.servicer.user.email}</p> */}
+               
             </div>
           </div>
         </div>
@@ -148,7 +131,7 @@ function SingleView(props) {
              backgroundPosition: "center",
              backgroundRepeat: "no-repeat",
            }}
-           // onClick={() => handleCategoryClick(category.id)}
+        
          >
            
            <div className="text-center relative">
@@ -167,15 +150,8 @@ function SingleView(props) {
         
         
         </div>
-          <Feedback eventId={id} onFeedbackSubmit={handleFeedbackSubmit} />
-          <div>
-              <h3>Comments:</h3>
-              <ul>
-                  {feedbacks.map((feedback) => (
-                      <li key={feedback.id}>{feedback.comment}</li>
-                  ))}
-              </ul>
-          </div>
+       
+
        
         <Footer />
         

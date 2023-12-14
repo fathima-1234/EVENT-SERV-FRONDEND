@@ -135,6 +135,47 @@ function AdminDashboard() {
   }, [selectedMonth, bookings]);
 
   // ... (existing state and effect code)
+  // const calculateMonthlySales = () => {
+  //   if (selectedMonth === null) {
+  //     return []; // Return an empty array if no month is selected
+  //   }
+  
+  //   const filteredData = bookings.filter(booking => {
+  //     const date = new Date(booking.booking_date);
+  //     return date.getMonth() === selectedMonth;
+  //   });
+  
+  //   if (filteredData.length === 0) {
+  //     return []; // Return an empty array if there are no bookings for the selected month
+  //   }
+  
+  //   const firstDate = new Date(filteredData[0].booking_date);
+  //   firstDate.setDate(1); // Set to the first day of the selected month
+  
+  //   const lastDate = new Date(filteredData[filteredData.length - 1].booking_date);
+  //   lastDate.setMonth(selectedMonth + 1, 0); // Set to the last day of the selected month
+  
+  //   const totalDays = (lastDate - firstDate) / (24 * 60 * 60 * 1000) + 1;
+  
+  //   const dailySalesData = Array.from({ length: totalDays }, (_, dayIndex) => {
+  //     const currentDate = new Date(firstDate);
+  //     currentDate.setDate(currentDate.getDate() + dayIndex);
+  
+  //     const daySales = filteredData.filter(booking => {
+  //       const bookingDate = new Date(booking.booking_date);
+  //       return bookingDate.toDateString() === currentDate.toDateString();
+  //     }).reduce((total, booking) => total + booking.event.price_per_person * 0.1, 0);
+  
+  //     const dayLabel = currentDate.getDate();
+  
+  //     return {
+  //       day: dayLabel,
+  //       amount: daySales,
+  //     };
+  //   });
+  
+  //   return dailySalesData;
+  // };
   const calculateMonthlySales = () => {
     if (selectedMonth === null) {
       return []; // Return an empty array if no month is selected
@@ -161,10 +202,12 @@ function AdminDashboard() {
       const currentDate = new Date(firstDate);
       currentDate.setDate(currentDate.getDate() + dayIndex);
   
-      const daySales = filteredData.filter(booking => {
-        const bookingDate = new Date(booking.booking_date);
-        return bookingDate.toDateString() === currentDate.toDateString();
-      }).reduce((total, booking) => total + booking.event.price_per_person * 0.1, 0);
+      const daySales = filteredData
+        .filter(booking => {
+          const bookingDate = new Date(booking.booking_date);
+          return bookingDate.toDateString() === currentDate.toDateString();
+        })
+        .reduce((total, booking) => total + booking.event.price_per_person * 0.1, 0);
   
       const dayLabel = currentDate.getDate();
   
@@ -187,7 +230,7 @@ function AdminDashboard() {
       }}
     >
       <Sidebar />
-      <div className='flex-1 px-5 w-full min-h-screen mx-5 mt-2 py-8 font-poppins flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl'>
+      <div className='flex-1 px-5 w-full min-h-screen mx-5 font-serif mt-2 py-8 font-poppins flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl'>
         <div className="w-full px-3 md:px-8 lg:px-16 font-poppins">
           <Toaster position="top-center" reverseOrder={false} />
   
@@ -223,7 +266,7 @@ function AdminDashboard() {
         
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
             {/* Display Yearly Sales Chart */}
-            <h2 className="text-2xl mb-2 text-black">Monthly Sales</h2>
+            <h2 className="text-2xl mb-2 text-black">Monthly Booking</h2>
             <div className="flex items-center mb-4">
               <select
                 className="bg-black border rounded-md py-1 px-2 mr-3"
@@ -250,15 +293,16 @@ function AdminDashboard() {
   
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
             {/* Display Daily Sales Chart */}
-            <h2 className="text-2xl mb-2 text-black">Sales by Day</h2>
+            <h2 className="text-2xl mb-2 text-black">Booking by Day</h2>
             <LineChart width={1000} height={400} data={dailySalesData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="day" />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line dataKey="amount" fill="#000000" />
-            </LineChart>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="day" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line dataKey="amount" fill="#000000" />
+              </LineChart>
+
           </div>
         </div>
       </div>

@@ -34,7 +34,7 @@ import ServicerDashboard from './components/servicer/ServicerDashboard';
 import ChatGroup from './pages/chatGroups';
 import CreateRoom from './components/servicer/CreateRoom';
 
-import FeedbackPage from './components/user/Feedback';
+
 function App() {
   return (
     <div className="App">
@@ -74,7 +74,7 @@ function App() {
           <Route path='/chat' exact Component={ChatGroup} />
           <Route path='/createRoom' Component={CreateRoom}/>
 
-          <Route path="/feedback" Component={FeedbackPage} />
+        
         
 
           

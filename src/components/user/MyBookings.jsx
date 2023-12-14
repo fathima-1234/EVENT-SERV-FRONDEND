@@ -4,19 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import Navbar1 from './Navbar1';
 import instance from '../../utils/axios';
 import Swal from 'sweetalert2';
-import  { BASE_URL } from '../../utils/axios';
+
 import { useLocation } from 'react-router-dom';
-import QueryString from 'query-string';
+
 import { loadStripe } from '@stripe/stripe-js';
 function Bookings() {
   const [bookings, setBookings] = useState([]);
   const [user, setUser] = useState([]);
   const [cancellationInProgress, setCancellationInProgress] = useState(false);
-  const location = useLocation();
+  
   const [searchQuery, setSearchQuery] = useState('');
   const stripePromise = loadStripe('pk_test_51OETQdSIwzdmVhzBauVaeNDhXEW06fX5JB6XGaF4BrFmWcg4zyjkfB6slzIvhsVDNlRbK9yW4MBalU1yQkbFOnW900fGKOwaX9')
 
-  const isSuccess = new URLSearchParams(location.search).get('success') === 'true';
+
 
   const navigate = useNavigate();
   
@@ -99,54 +99,7 @@ function Bookings() {
   };
 
   const filteredbookings = handleSearch();
-  // const handleCheckout = async (bookingId) => {
-  //   try {
-  //     const token = localStorage.getItem('token');
-  //     if (token) {
-  //       instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-  //     }
-  //     console.log('Request Payload:', { booking_id: bookingId });
-  
-  //     const response = await instance.post(
-  //       'http://127.0.0.1:8000/api/stripe/create-checkout-session/',
-  //       { booking_id: bookingId },
-  //       { headers: { 'Content-Type': 'application/json' } }
-  //     );
-      
-  //   console.log('Full Response:', response); // Log the full response
-    
-  //   // Check if the response status is OK (200)
-  //   if (!response.ok) {
-  //     console.error('Error during checkout. Status:', response.status);
-  //     return;
-  //   }
-
-  //   // Assuming the response is not JSON, you may need to handle it accordingly
-  //   const responseData = await response.text();
-  //   console.log('Response Data:', responseData);
-   
-  //     const stripe = await stripePromise;
-  
-  //     const { error } = await stripe.redirectToCheckout({
-  //       sessionId: response.data.session_id,
-  //     });
-  
-  //     if (error) {
-  //       console.error('Error redirecting to Checkout:', error);
-  //       // Handle error, e.g., show an alert to the user
-  //     }
-  //   } catch (error) {
-  //     console.error('Error during checkout:', error);
-  
-  //     if (error.response) {
-  //       console.error('Response data:', error.response.data);
-  //     } else if (error.request) {
-  //       console.error('No response received. Request details:', error.request);
-  //     } else {
-  //       console.error('Unexpected error:', error.message);
-  //     }
-  //   }
-  // };
+ 
 
   
   const handleCheckout = async (bookingId) => {
@@ -224,9 +177,9 @@ function Bookings() {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+          <div className="overflow-hidden rounded-lg border border-customColorD shadow-md m-5">
             <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
-              <thead className="bg-gray-50">
+              <thead className="bg-customColorD">
                 <tr>
                   <th scope="col" className="px-6 py-4 font-large text-gray-900">Event Name</th>
                   <th scope="col" className="px-6 py-4 font-large text-gray-900">Booking date</th>
@@ -324,18 +277,31 @@ function Bookings() {
                       </button>
                     )}
                   </td>
-                  <td>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleCheckout(booking.id);
-        }}
-      >
-        <button className='button bg-green-600 text-white py-2 px-4 rounded ' type='submit'>
-          Checkout
-        </button>
-      </form>
-    </td>
+      
+
+<td>
+  {booking.status === 'pending' ? (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleCheckout(booking.id);
+      }}
+    >
+      <button className='button bg-green-600 text-white py-2 px-4 rounded' type='submit'>
+        Checkout
+      </button>
+    </form>
+  ) : (
+    <button
+                        className='bg-gray-300 text-black font-semibold py-2 px-4 rounded cursor-not-allowed'
+                        disabled
+                      >
+                        Checkout
+                      </button>
+  )}
+</td>
+
+
                     </tr>
                   ))
                 ) : (

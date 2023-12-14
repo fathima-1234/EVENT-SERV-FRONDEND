@@ -75,18 +75,9 @@ export default function ServicerBookings() {
       <div className='flex h-full bg-acontent mt-3'>
         <Toaster position='top-center' reverseOrder={false} limit={1} />
 
-        <div className='px-5 w-full h-auto min-h-screen mx-5 mt-2 py-8  flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl'>
+        <div className='px-5 w-full h-auto min-h-screen font-serif mx-5 mt-2 py-8  flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl'>
           <div className='w-full h-screen px-3 '>
-            {/* <div className="w-full p-5 flex justify-between">
-              <h1 className='  text-3xl font-bold text-center text-custom-red font-serif '>My Bookings</h1>
-              <input
-                type="text"
-                placeholder='&#x1F50D; Search for bookings'
-                className="border border-primaryBlue border-solid focus:outline-none px-2 w-1/5 rounded-lg "
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div> */}
+          
            
 
             {/* Bar chart for the number of bookings per event */}

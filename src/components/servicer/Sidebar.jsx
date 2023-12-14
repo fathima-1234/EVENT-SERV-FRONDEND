@@ -62,22 +62,24 @@ export default function Sidebar() {
           Dashborad
         </NavLink>
         
-        <NavLink
-        to='/createRoom'
-        className='px-1 list-none text-white hover:text-customColorC transition duration-300'
-        activeClassName='text-customColorC'
-      >
-      <FiPlus size={45} className='px-3' />
-      <h3 className='font-semibold text-black'>Create Room</h3>
-      </NavLink>
+       
       <NavLink
-        to='/chat'
-        className='px-1 list-none text-white hover:text-customColorC transition duration-300'
-        activeClassName='text-customColorC'
-      >
-      <FiMessageSquare size={45} className='px-3' />
-      <h3 className='font-semibold text-black'>Messages</h3>
-      </NavLink>
+           to='/createRoom'
+          className='px-1 list-none text-black hover:text-customColorC transition duration-300'
+         
+        > 
+        <FiCalendar size={20} className='px-3' />
+        <h3 className='font-serif text-black'>Create Room</h3>
+        </NavLink>
+        <NavLink
+           to='/chat'
+          className='px-1 list-none text-black hover:text-customColorC transition duration-300'
+         
+        > 
+        <FiCalendar size={20} className='px-3' />
+        <h3 className='font-serif text-black'>Messages</h3>
+        </NavLink>
+      
         <CiLogout
           size={30}
           className='cursor-pointer text-black hover:text-customColorC transition duration-300'

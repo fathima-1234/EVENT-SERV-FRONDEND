@@ -73,7 +73,7 @@ function Register() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center bg-customColorD">
+    <div className="h-screen flex items-center justify-center font-serif bg-customColorD">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-full sm:w-96 bg-white rounded-lg shadow p-8">
         <h1 className="text-3xl font-bold text-center text-customColorA mb-8">SIGNUP</h1>

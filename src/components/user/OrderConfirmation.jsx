@@ -4,10 +4,10 @@ import { toast, Toaster } from "react-hot-toast";
 import Navbar1 from './Navbar1';
 import instance from '../../utils/axios';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
-import PaymentDetails from './PaymentDetails';
+
 import { useNavigate } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
-import axios from 'axios';
+
+
 import './loader.css'
 import Footer from './Footer';
 
@@ -25,7 +25,7 @@ function EventDetail() {
   const [slots, setSlots] = useState([]);
   const [selectedSlots, setSelectedSlots] = useState([]);
   const [showDate, setShowDate] = useState(false);
-  const [showPayment, setShowPayment] = useState(false);
+ 
   const [bookedSlot, setBookedSlot] = useState([]);
   const navigate = useNavigate();
  
@@ -36,7 +36,7 @@ function EventDetail() {
   
   const [selectedMenus, setSelectedMenus] = useState([]);
   const [menus, setMenus] = useState([]);
-  const [showMenus, setShowMenus] = useState(false);
+
   
   const [userDetails, setUserDetails] = useState({
     email: ''});
@@ -203,36 +203,7 @@ function EventDetail() {
       setTimeout(() => {
         navigate(`/mybookings`);
       }, 3000); 
-      // navigate('/mybookings');
-    
-    // // Check if the booking_id is present in the response
-    // if ('booking_id' in response.data) {
-    //   const booking_id = response.data.booking_id;
-
-    //   console.log('Booking_id:', booking_id); // Add this line for logging
-
-    //   // Fetch booking details after confirming the booking
-    //   try {
-    //     const bookingDetailsResponse = await instance.get(`http://127.0.0.1:8000/api/stripe/booking-details/${booking_id}/`, {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //       },
-    //     });
-
-    //     const bookingDetails = bookingDetailsResponse.data;
-
-    //     // Use bookingDetails as needed (you can set it to state, display, etc.)
-    //     console.log('Booking Details:', bookingDetails); // Add this line for logging
-
-    //     // Redirect to booking details page
-    //     navigate(`/bookingdetail/${booking_id}`);
-    //   } catch (detailsError) {
-    //     console.error('Failed to fetch booking details:', detailsError);
-    //     toast.error("Failed to fetch booking details");
-    //   }
-    // } else {
-    //   console.error("Booking ID is not present in the response:", response.data);
-    // }
+   
     } catch (error) {
       console.error('Failed to confirm booking:', error);
       toast.error("Failed to confirm booking");
@@ -299,7 +270,7 @@ function EventDetail() {
       </div>
 
       <div className="mb-4 card font-serif">
-        {/* <h5 className="mt-1">Write Your Requirements:</h5> */}
+        
          <input
         placeholder="Enter your requirements here..."
           type="text"
@@ -308,7 +279,7 @@ function EventDetail() {
           className="mt-3 border-slate-50 border-2 rounded-md py-20 px-28"
         />
       </div> 
-      {/* </div>  */}
+      
 
                {!showDate ? (
                 <button
@@ -377,13 +348,7 @@ function EventDetail() {
                       </div>
                    
                       <div className="w-full flex place-content-center">
-                     {/* <button 
-                          className={`bg-yellow-500 text-black py-2 px-4 rounded-md border-black mt-4 ${selectedSlots.every(slot => slot.is_booked) || !date ? 'cursor-not-allowed opacity-50' : ''}`}
-                          onClick={() => setShowPayment(true)}
-                          disabled={selectedSlots.every(slot => slot.is_booked) || !date}
-                        >
-                          Book
-                        </button> */}
+                    
                          <button
           className={`bg-yellow-500 text-black py-2 px-4 rounded-md border-black mt-4 ${selectedSlots.every(slot => slot.is_booked) || !date ? 'cursor-not-allowed opacity-50' : ''}`}
           onClick={() => handleConfirmBooking()}
@@ -397,19 +362,7 @@ function EventDetail() {
                 )}
                 
     
-              {/* {showPayment && (
-                <div className='fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50'>
-                <PaymentDetails
-                event={event}
-                bookedSlot={selectedSlots}
-                numberOfMembers={numberOfMembers}
-                requirements={requirements}
-                menus = {menus}
-                userEmail={userDetails.email}
-                setShowPayment={setShowPayment}
-              />
-                </div>
-               )} */}
+             
                
 
               <Link to={`/chat`} className="bg-green-500 text-white py-2 px-4 rounded-md ms-1 mt-2">

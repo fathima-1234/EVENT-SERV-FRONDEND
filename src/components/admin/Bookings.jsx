@@ -244,7 +244,7 @@ const bookingsToServicer = startDate && endDate ? dateFilteredBookings : filtere
     <div className="flex h-full bg-acontent">
     <Sidebar />
   
-      <div className='px-5 w-full h-auto min-h-screen mx-5 mt-2 py-8  flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl'>
+      <div className='px-5 w-full h-auto min-h-screen mx-5 mt-2 py-8 font-serif flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl'>
         <div className='w-full h-screen px-3 '>
           <div className="w-full p-5 flex justify-between">
             <h1 className='  text-3xl text-start  ms-4'>Bookings</h1>
