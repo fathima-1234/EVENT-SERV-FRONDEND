@@ -27,7 +27,7 @@ function CreateMenu() {
     formData.append("servicer", servicerID); // Include
 
     try {
-      const res = await instance.post("http://127.0.0.1:8000/events/create-event-menu/", formData, {
+      const res = await instance.post("events/create-event-menu/", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "multipart/form-data",

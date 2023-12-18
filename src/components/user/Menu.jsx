@@ -15,7 +15,7 @@ function Menu() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const menu = await instance.get('http://127.0.0.1:8000/events/menu/');
+        const menu = await instance.get('events/menu/');
        
 
         setMenuData(menu.data);
@@ -27,16 +27,7 @@ function Menu() {
     fetchData();
   }, []);
 
-  
-  
- 
-  
 
-  // const handleCategoryClick = (categoryId) => {
-  //   navigate(`/home-list-event?category=${categoryId}`);
-  // };  
-
-  // console.log("categories: ", categoryData)
 
   return (
     <div className="w-full">
@@ -52,7 +43,7 @@ function Menu() {
               
                 <div key={menu.id} className="bg-white rounded-lg p-6 shadow-md">
                   <img
-                    src={`${BASE_URL}${menu.image}`}
+                    src={`${menu.image}`}
                     alt={menu.name}
                     className="w-full h-40 object-cover mb-4 rounded-md"
                   />

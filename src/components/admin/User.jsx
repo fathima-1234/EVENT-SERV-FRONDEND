@@ -9,13 +9,13 @@ function User() {
   const [searchQuery, setSearchQuery] = useState('');
 
   async function getUser() {
-    const response = await instance.get("http://127.0.0.1:8000/users/");
+    const response = await instance.get("users/");
     setUser(response.data);
   }
   useEffect(() => {
     async function getUser() {
       try {
-        const response = await instance.get("http://127.0.0.1:8000/users/");
+        const response = await instance.get("users/");
         setUser(response.data);
       } catch (error) {}
     }
@@ -24,7 +24,7 @@ function User() {
 
   const statusChange = (id) => {
     // console.log('user id', id)
-    instance.get(`http://127.0.0.1:8000/blockuser/${id}/`).then(() => getUser());
+    instance.get(`blockuser/${id}/`).then(() => getUser());
     // console.log(response);
   };
 

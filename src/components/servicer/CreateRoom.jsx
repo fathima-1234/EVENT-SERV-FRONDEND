@@ -21,7 +21,7 @@ export default function CreateRoom() {
       const servicer = JSON.parse(localStorage.getItem("user")).userID;
       formData.append('servicer', servicer);
 
-      await instance.post('http://127.0.0.1:8000/chat/roomCreate/', formData, {
+      await instance.post('chat/roomCreate/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
           Authorization: `Bearer ${localStorage.getItem("token")}`,

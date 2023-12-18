@@ -1,93 +1,3 @@
-// import React, { useState, useEffect } from "react";
-// import { Toaster } from "react-hot-toast";
-// import Navbar1 from "./Navbar1";
-
-// import ReactModal from 'react-modal';
-// import EditProfileModal from './EditProfileModal';
-
-// // ReactModal.setAppElement('#root');
-// const rootElement = document.getElementById('root');
-// ReactModal.setAppElement(rootElement);
-
-
-// export default function Profile() {
-//   const [userData, setUserData] = useState({
-//     email: "",
-//     id: "",
-//     name: "",
-//     image: "", // Add an image property to userData
-//   });
-//   const [isModalOpen, setModalOpen] = useState(false);
-
-//   useEffect(() => {
-//     const storedUser = JSON.parse(localStorage.getItem("user")) || {};
-//     setUserData(storedUser);
-//   }, []);
-
-//   const openModal = () => {
-//     console.log('Opening modal');
-//     setModalOpen(true);
-//   };
-//   const closeModal = () => {
-//     console.log('Closing modal');
-//     setModalOpen(false);
-//   };
-
-//   const saveChanges = (formData) => {
-//     // Logic to save changes, e.g., make an API request
-//     console.log('Saving changes:', formData);
-
-//     // Update user data in state
-//     setUserData(formData);
-
-//     // Update user data in localStorage
-//     localStorage.setItem("user", JSON.stringify(formData));
-
-//     // Close the modal
-//     closeModal();
-//   };
-
-//   return (
-//     <div className="w-full h-screen flex flex-col bg-customColorA">
-//       <Toaster position="top-center" limit={3} />
-
-//       <div className="w-full h-20 flex items-center ">
-//         <Navbar1 />
-//       </div>
-
-//       <div className=" flex items-center justify-center">
-//         <div className="bg-customColorD shadow-xl rounded-xl p-6 w-full max-w-md mx-3 mt-10 font-serif">
-//           <div className="overflow-hidden w-full">
-//             <h1 className="font-Playball text-3xl mb-4">My Profile</h1>
-//           </div>
-
-//           <div className="w-full p-4 rounded-lg hover:bg-customColorD transition duration-300 transform hover:scale-105">
-//             {userData.image ? (
-//               <img
-//                 src={userData.image}
-//                 alt="Profile"
-//                 className="w-20 h-20 rounded-full mb-4"
-//               />
-//             ) : (
-//               <div className="w-20 h-20 bg-gray-300 rounded-full mb-4"></div>
-//             )}
-//             <p className="text-lg font-serif mb-2"> {userData.name}</p>
-//             <p className="text-lg font-serif mb-2"> {userData.email} </p>
-
-//             <div>
-//               <button onClick={openModal}>Edit Profile</button>
-//               <EditProfileModal
-//                 isOpen={isModalOpen}
-//                 onClose={closeModal}
-//                 onSave={saveChanges}
-//               />
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
 import React, { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import Navbar1 from "./Navbar1";
@@ -124,13 +34,15 @@ const Profile = () => {
           return;
         }
 
-        const response = await fetch('http://127.0.0.1:8000/user/user-createprofile/', {
+        const response = await fetch('https://eventsev.onrender.com/user/user-createprofile/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
           },
+          // credentials: 'include',
         });
+        console.log('Response:', response);
 
         if (!response.ok) {
           throw new Error('Failed to fetch user profile');
@@ -140,6 +52,10 @@ const Profile = () => {
         setUserData(profileData);
       } catch (error) {
         console.error('Error fetching user profile:', error.message);
+        if (error.response) {
+          console.error('Status code:', error.response.status);
+          console.error('Response data:', error.response.data);
+        }
       }
     };
 
@@ -162,7 +78,7 @@ const Profile = () => {
       form.append('email', formData.email);
       form.append('profile_photo', formData.profile_photo);  // Assuming profile_photo is a file
   
-      const response = await fetch('http://127.0.0.1:8000/user/user-profile/update/', {
+      const response = await fetch('https://eventsev.onrender.com/user/user-profile/update/', {
         method: 'PATCH',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -202,7 +118,7 @@ const Profile = () => {
             {userData.profile_photo ? (
               <img
              
-                src={`${BASE_URL}${userData.profile_photo}`}
+                src={`${userData.profile_photo}`}
                 alt="Profile"
                 className="w-20 h-20 rounded-full  text-center"
               />

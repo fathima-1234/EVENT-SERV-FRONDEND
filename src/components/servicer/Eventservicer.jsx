@@ -128,7 +128,7 @@ console.log(formData,'asdfghj');
   const updateevent = async (id, formData) => {
     try {
       const response = await instance.put(
-        `http://127.0.0.1:8000/events/update-event/${id}/`,
+        `events/update-event/${id}/`,
         formData,
         {
           headers: {
@@ -160,7 +160,7 @@ console.log(formData,'asdfghj');
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await instance.delete(`http://127.0.0.1:8000/events/delete-event/${event_id}/`);
+          const response = await instance.delete(`events/delete-event/${event_id}/`);
           console.log(response);
           getevents();
           toast.success("Event deleted successfully");
@@ -197,7 +197,7 @@ console.log(formData,'asdfghj');
 
   const getevents = async (userId) => {
     try {
-      const response = await instance.get("http://127.0.0.1:8000/events/event/", { params: { renter: userId },
+      const response = await instance.get("events/event/", { params: { renter: userId },
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,
       },});
@@ -217,7 +217,7 @@ console.log(formData,'asdfghj');
 
   const getCategory = async (userId) => {
     try {
-      const response = await instance.get("http://127.0.0.1:8000/events/categories1/", {
+      const response = await instance.get("events/categories1/", {
         params: { servicer: userId },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -231,7 +231,7 @@ console.log(formData,'asdfghj');
 
 
   async function getuser() {
-    const response = await instance.get("http://127.0.0.1:8000/users/");
+    const response = await instance.get("users/");
     setUser(response.data);
   }
 
@@ -241,7 +241,7 @@ console.log(formData,'asdfghj');
 
   const statusChange = (id) => {
     // console.log('user id', id)
-    instance.get(`http://127.0.0.1:8000/blockuser/${id}`).then(() => getuser());
+    instance.get(`blockuser/${id}`).then(() => getuser());
     // console.log(response);
   };
 

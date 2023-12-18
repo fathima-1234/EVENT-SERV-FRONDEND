@@ -48,7 +48,7 @@ export default function ServicerBookings() {
         // Use the global Axios instance directly here
         instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       }
-      const response = await instance.get(`http://127.0.0.1:8000/api/stripe/servicerbookings/?user=${userId}`);
+      const response = await instance.get(`api/stripe/servicerbookings/?user=${userId}`);
       console.log('API Response:', response.data); 
       setBookings(response.data);
     } catch (error) {
@@ -84,7 +84,7 @@ export default function ServicerBookings() {
       }
   
       // Make an API request to update the booking status
-      const response = await instance.patch(`http://127.0.0.1:8000/api/stripe/updateBookingStatus/${bookingId}/`, {
+      const response = await instance.patch(`api/stripe/updateBookingStatus/${bookingId}/`, {
         status: newStatus,
       });
   

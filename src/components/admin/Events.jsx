@@ -3,11 +3,7 @@ import Sidebar from "./Sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import instance,  { BASE_URL } from '../../utils/axios';
-// import Swal from "sweetalert2";
-// import {
-//   Button,
-  
-// } from "@material-tailwind/react";
+
 import { Link } from "react-router-dom";
 import { AiFillEye } from 'react-icons/ai';
 import "./Events.css"; 
@@ -25,14 +21,14 @@ function Event() {
 
   
   async function getEvents() {
-    const response = await instance.get("http://127.0.0.1:8000/events/event/");
+    const response = await instance.get("events/event/");
     setEvents(response.data);
   }
 
   useEffect(() => {
     async function getEvents() {
       try {
-        const response = await instance.get("http://127.0.0.1:8000/events/home-list-event/");
+        const response = await instance.get("events/home-list-event/");
         setEvents(response.data);
       } catch (error) {}
     }
@@ -40,37 +36,12 @@ function Event() {
   }, []);
 
 
-  // const deleteEvent = async (event_id) => {
-  //   console.log(event_id);
-  
-    
-  //   Swal.fire({
-  //     title: "Are you sure?",
-  //     text: "You are about to delete this event. This action cannot be undone.",
-  //     icon: "warning",
-  //     showCancelButton: true,
-  //     confirmButtonColor: "#d33",
-  //     cancelButtonColor: "#3085d6",
-  //     confirmButtonText: "Yes, delete it!",
-  //     cancelButtonText: "Cancel",
-  //   }).then(async (result) => {
-  //     if (result.isConfirmed) {
-  //       try {
-  //         const response = await instance.delete(`http://127.0.0.1:8000/events/delete-event/${event_id}/`);
-  //         console.log(response);
-  //         getEvents();
-  //         toast.success("Event deleted successfully");
-  //       } catch (error) {
-  //         toast.error("Failed to delete the Event");
-  //       }
-  //     }
-  //   });
-  // };
+ 
 
  
  
   const statusChange = (id) => {
-    instance.get(`http://127.0.0.1:8000/events/block-event/${id}`).then(() => getEvents());
+    instance.get(`events/block-event/${id}`).then(() => getEvents());
    
    
   };
@@ -126,7 +97,7 @@ function Event() {
                       <p>{event.name}</p>
                     </td>
                     <td className="px-6 py-4">
-                      <img className="event-image" src={`${BASE_URL}${event.image}`} alt={event.name} />
+                      <img className="event-image" src={`${event.image}`} alt={event.name} />
                     </td>
                     <td className="px-6 py-4">
                       <p>{event.category.name}</p>
@@ -137,15 +108,7 @@ function Event() {
                     
                     
                     <td className="action-col">
-                    {/* <button
-                    className='px-3 py-1 font-serif bg-customColorA text-black shadow-xl rounded-xl transition duration-300 ease-in-out transform hover:scale-105'
-                    onClick={() => deleteEvent(event.id)}
-                    variant="gradient"
-                   
-                  >
-                    Delete
-                  </button> */}
-                   {/* <p className='text-black'> {event.is_active ? 'Approved' : 'Pending'}</p> */}
+                    
                    <p className="text-green-500">{ event.status }</p>   
                      
                     </td>

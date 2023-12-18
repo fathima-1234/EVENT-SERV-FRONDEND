@@ -8,14 +8,14 @@ function Servicer() {
   const [searchQuery, setSearchQuery] = useState('');
 
   async function getServicers() {
-    const response = await instance.get("http://127.0.0.1:8000/servicers/");
+    const response = await instance.get("servicers/");
     setServicers(response.data);
   }
 
   useEffect(() => {
     async function getServicers() {
       try {
-        const response = await instance.get("http://127.0.0.1:8000/servicers/");
+        const response = await instance.get("servicers/");
         setServicers(response.data);
       } catch (error) {}
     }
@@ -23,7 +23,7 @@ function Servicer() {
   }, []);
 
   const statusChange = (id) => {
-    instance.get(`http://127.0.0.1:8000/blockservicer/${id}/`).then(() => getServicers());
+    instance.get(`blockservicer/${id}/`).then(() => getServicers());
   };
 
 

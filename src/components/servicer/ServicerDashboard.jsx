@@ -31,7 +31,7 @@ export default function ServicerBookings() {
       if (token) {
         instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       }
-      const response = await instance.get(`http://127.0.0.1:8000/api/stripe/servicerbookings/?user=${userId}`);
+      const response = await instance.get(`api/stripe/servicerbookings/?user=${userId}`);
       setBookings(response.data);
     } catch (error) {
       console.error('Could not fetch data', error);

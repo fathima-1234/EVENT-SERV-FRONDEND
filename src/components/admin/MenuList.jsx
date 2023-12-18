@@ -28,7 +28,7 @@ function MenuList() {
  // Define the fetchMenu function here
  const fetchMenu = async () => {
   try {
-    const response = await instance.get("http://127.0.0.1:8000/events/menu/");
+    const response = await instance.get("events/menu/");
     setMenu(response.data);
   } catch (error) {
     console.error("Failed to fetch menu:", error);
@@ -60,7 +60,7 @@ useEffect(() => {
       if (result.isConfirmed) {
         try {
           const response = await instance.delete(
-            `http://127.0.0.1:8000/events/delete-event-menu/${menu_id}/`
+            `events/delete-event-menu/${menu_id}/`
           );
           console.log(response);
           fetchMenu();
@@ -86,7 +86,7 @@ useEffect(() => {
       formData.append("description", selectedMenu.description);
       formData.append("image", selectedMenu.image);
 
-      const response = await instance.get(`http://127.0.0.1:8000/events/update-event-menu/${selectedMenu.id}`, formData);
+      const response = await instance.get(`events/update-event-menu/${selectedMenu.id}`, formData);
 
       if (response.status === 200) {
         toast.success('Menu updated successfully');
@@ -139,7 +139,7 @@ useEffect(() => {
               </td>
               <td className="px-6 py-4">
                 <p>
-                <img className="event-image" src={`${BASE_URL}${menu.image}`} alt={menu.name} />
+                <img className="event-image" src={`${menu.image}`} alt={menu.name} />
                   {/* <img className="w-4/5 h-24" src={category.image} alt={category.name} /> */}
                 </p>
               </td>

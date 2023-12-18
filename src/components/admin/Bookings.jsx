@@ -40,7 +40,7 @@ function AllBookings() {
         // Use the global Axios instance directly here
         instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       }
-      const response = await instance.get(` http://127.0.0.1:8000/api/stripe/allbookings/`);
+      const response = await instance.get(`api/stripe/allbookings/`);
       setBookings(response.data);
     } catch (error) {
       console.error('could not fetch data', error);

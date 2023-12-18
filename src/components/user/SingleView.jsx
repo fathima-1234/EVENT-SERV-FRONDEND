@@ -19,7 +19,7 @@ function SingleView(props) {
 
   useEffect(() => {
     // Fetch event details
-    instance.get(`http://127.0.0.1:8000/events/user-events/${id}/`)
+    instance.get(`events/user-events/${id}/`)
       .then((response) => {
          
         setEvent(response.data);
@@ -31,7 +31,7 @@ function SingleView(props) {
       useEffect(() => {
         async function fetchData() {
           try {
-            const menu = await instance.get('http://127.0.0.1:8000/events/menu/');
+            const menu = await instance.get('events/menu/');
            
     
             setMenuData(menu.data);
@@ -126,7 +126,7 @@ function SingleView(props) {
            key={menu.id}
            className="w-full bg-black rounded-lg p-12 flex flex-col justify-center items-center black-cover"
            style={{
-             backgroundImage: `url(${BASE_URL}${menu.image})`,
+             backgroundImage: `url(${menu.image})`,
              backgroundSize: "cover",
              backgroundPosition: "center",
              backgroundRepeat: "no-repeat",

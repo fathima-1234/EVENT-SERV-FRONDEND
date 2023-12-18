@@ -16,7 +16,7 @@ function ServicerSingleEvent() {
   useEffect(() => {
     async function getEventDetails() {
       try {
-        const response = await instance.get(`http://127.0.0.1:8000/events/single-event/${id}/`);
+        const response = await instance.get(`events/single-event/${id}/`);
         setEvent(response.data);
       } catch (error) {
         console.error('Failed to fetch event details:', error);

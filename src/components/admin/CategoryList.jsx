@@ -28,7 +28,7 @@ function CategoryList() {
  // Define the fetchCategories function here
  const fetchCategories = async () => {
   try {
-    const response = await instance.get("http://127.0.0.1:8000/events/categories1/");
+    const response = await instance.get("events/categories1/");
     setCategories(response.data);
   } catch (error) {
     console.error("Failed to fetch categories:", error);
@@ -60,7 +60,7 @@ useEffect(() => {
       if (result.isConfirmed) {
         try {
           const response = await instance.delete(
-            `http://127.0.0.1:8000/events/delete-event-category/${cat_id}/`
+            `events/delete-event-category/${cat_id}/`
           );
           console.log(response);
           fetchCategories();
@@ -86,7 +86,7 @@ useEffect(() => {
       formData.append("description", selectedCategory.description);
       formData.append("image", selectedCategory.image);
 
-      const response = await instance.get(`http://127.0.0.1:8000/events/update-event-category/${selectedCategory.id}`, formData);
+      const response = await instance.get(`events/update-event-category/${selectedCategory.id}`, formData);
 
       if (response.status === 200) {
         toast.success('Category updated successfully');
@@ -139,7 +139,7 @@ useEffect(() => {
               </td>
               <td className="px-6 py-4">
                 <p>
-                <img className="event-image" src={`${BASE_URL}${category.image}`} alt={category.name} />
+                <img className="event-image" src={`${category.image}`} alt={category.name} />
                   {/* <img className="w-4/5 h-24" src={category.image} alt={category.name} /> */}
                 </p>
               </td>

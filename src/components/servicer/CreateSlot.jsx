@@ -15,7 +15,7 @@ const CreateSlot = () => {
   useEffect(() => {
     async function getEventDetails() {
       try {
-        const response = await instance.get(`http://127.0.0.1:8000/events/single-event/${id}/`, {
+        const response = await instance.get(`events/single-event/${id}/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
@@ -40,7 +40,7 @@ const CreateSlot = () => {
      
       const userId = JSON.parse(localStorage.getItem('user')).userID;
       const response = await instance.post(
-        'http://127.0.0.1:8000/events/createslots/',
+        'events/createslots/',
         {
           event: event.id,
           date: date,   // Update field name here

@@ -38,7 +38,7 @@ function Bookings() {
         // Use the global Axios instance directly here
         instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       }
-      const response = await instance.get(`http://127.0.0.1:8000/api/stripe/bookings/?user=${userId}`);
+      const response = await instance.get(`api/stripe/bookings/?user=${userId}`);
       console.log('Bookings Response:', response.data);
       setBookings(response.data);
       console.log(response.data)
@@ -67,7 +67,7 @@ function Bookings() {
       const statusToUpdate = newStatus || 'cancelled';
 
       // API endpoint for updating status
-      const response = await instance.put(`http://127.0.0.1:8000/api/stripe/cancelbooking/${bookingId}/`, {
+      const response = await instance.put(`api/stripe/cancelbooking/${bookingId}/`, {
         status: statusToUpdate,
 
       });
@@ -112,7 +112,7 @@ function Bookings() {
       console.log('Request Payload:', { booking_id: bookingId });
   
       const response = await instance.post(
-        'http://127.0.0.1:8000/api/stripe/create-checkout-session/',
+        'api/stripe/create-checkout-session/',
         { booking_id: bookingId ,
         // cancel_url: `${BASE_URL}/order-status/?canceled=true`,
         // success_url: `${BASE_URL}/order-status/?success=true`,

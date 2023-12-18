@@ -33,7 +33,7 @@ function Categories() {
 
   const getCategory = async (userId) => {
     try {
-      const response = await instance.get("http://127.0.0.1:8000/events/event-category/", {
+      const response = await instance.get("events/event-category/", {
         params: { servicer: userId },
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -63,7 +63,7 @@ function Categories() {
       if (result.isConfirmed) {
         try {
           const response = await instance.delete(
-            `http://127.0.0.1:8000/events/delete-event-category/${cat_id}/`
+            `events/delete-event-category/${cat_id}/`
           );
           console.log(response);
           getCategory();
@@ -89,7 +89,7 @@ function Categories() {
       formData.append("description", selectedCategory.description);
       formData.append("image", selectedCategory.image);
 
-      const response = await instance.get(`http://127.0.0.1:8000/events/update-event-category/${selectedCategory.id}`, formData);
+      const response = await instance.get(`events/update-event-category/${selectedCategory.id}`, formData);
 
       if (response.status === 200) {
         toast.success('Category updated successfully');

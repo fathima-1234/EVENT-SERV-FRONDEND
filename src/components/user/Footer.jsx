@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <div className='max-w-[1240px] mx-auto py-16 px-4 grid lg:grid-cols-3 gap-8 text-black bg-customColorD'>
       <div>
-        <h1 className='w-full text-3xl font-bold text-customColorA font-Playball'>CartServ</h1>
+        <h1 className='w-full text-3xl font-bold text-customColorA font-Playball'>EventServ</h1>
         <p className='py-4'>When it comes to food, I am strongly opinionated and don't mind sharing them. - Anthony Bourdain</p>
         <div className='flex justify-between md:w-[75%] my-6'>
           <FaFacebookSquare className ='text-customColorA' size={30} />

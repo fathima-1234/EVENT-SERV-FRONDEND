@@ -77,7 +77,7 @@ function ServicerRegister() {
   
   
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-100 font-serif flex items-center justify-center">
     <Toaster position="top-center" reverseOrder={false} />
 
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">

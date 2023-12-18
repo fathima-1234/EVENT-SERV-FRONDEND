@@ -13,7 +13,7 @@ function Servicercard1() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const categories = await instance.get('http://127.0.0.1:8000/events/categories/');
+        const categories = await instance.get('events/categories/');
        
 
         setCategoryData(categories.data);
@@ -35,6 +35,7 @@ function Servicercard1() {
   };  
 
   console.log("categories: ", categoryData)
+  
 
   return (
     <div className="w-full">
@@ -49,7 +50,10 @@ function Servicercard1() {
                 key={category.id}
                 className="w-full bg-black rounded-lg p-12 flex flex-col justify-center items-center black-cover"
                 style={{
-                  backgroundImage: `url(${BASE_URL}${category.image})`,
+                  // backgroundImage: `url(${BASE_URL}${category.image})`,
+                  backgroundImage: `url(${category.image})`,
+
+
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   backgroundRepeat: "no-repeat",
@@ -63,7 +67,10 @@ function Servicercard1() {
               </div>
             ))}
           </div>
-    
+          {categoryData.map((category) => (
+        console.log('category.image:', category.image)
+      ))}
+
    
       <div className='text-center mb-10'>
         <Link to='/home-list-event' className="p-2 overflow-hidden rounded-md bg-customColorA hover:bg-customColorD text-sm font-serif text-black">

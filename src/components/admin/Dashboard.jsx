@@ -58,10 +58,10 @@ function AdminDashboard() {
         }
 
         const [bookingsResponse, usersResponse, servicersResponse, eventsResponse] = await Promise.all([
-          instance.get('http://127.0.0.1:8000/api/stripe/allbookings/'),
-          instance.get('http://127.0.0.1:8000/users/'),
-          instance.get('http://127.0.0.1:8000/servicers/'),
-          instance.get('http://127.0.0.1:8000/events/home-list-event/')
+          instance.get('api/stripe/allbookings/'),
+          instance.get('users/'),
+          instance.get('servicers/'),
+          instance.get('events/home-list-event/')
         ]);
 
         setBookings(bookingsResponse.data);
@@ -134,48 +134,7 @@ function AdminDashboard() {
     }
   }, [selectedMonth, bookings]);
 
-  // ... (existing state and effect code)
-  // const calculateMonthlySales = () => {
-  //   if (selectedMonth === null) {
-  //     return []; // Return an empty array if no month is selected
-  //   }
-  
-  //   const filteredData = bookings.filter(booking => {
-  //     const date = new Date(booking.booking_date);
-  //     return date.getMonth() === selectedMonth;
-  //   });
-  
-  //   if (filteredData.length === 0) {
-  //     return []; // Return an empty array if there are no bookings for the selected month
-  //   }
-  
-  //   const firstDate = new Date(filteredData[0].booking_date);
-  //   firstDate.setDate(1); // Set to the first day of the selected month
-  
-  //   const lastDate = new Date(filteredData[filteredData.length - 1].booking_date);
-  //   lastDate.setMonth(selectedMonth + 1, 0); // Set to the last day of the selected month
-  
-  //   const totalDays = (lastDate - firstDate) / (24 * 60 * 60 * 1000) + 1;
-  
-  //   const dailySalesData = Array.from({ length: totalDays }, (_, dayIndex) => {
-  //     const currentDate = new Date(firstDate);
-  //     currentDate.setDate(currentDate.getDate() + dayIndex);
-  
-  //     const daySales = filteredData.filter(booking => {
-  //       const bookingDate = new Date(booking.booking_date);
-  //       return bookingDate.toDateString() === currentDate.toDateString();
-  //     }).reduce((total, booking) => total + booking.event.price_per_person * 0.1, 0);
-  
-  //     const dayLabel = currentDate.getDate();
-  
-  //     return {
-  //       day: dayLabel,
-  //       amount: daySales,
-  //     };
-  //   });
-  
-  //   return dailySalesData;
-  // };
+ 
   const calculateMonthlySales = () => {
     if (selectedMonth === null) {
       return []; // Return an empty array if no month is selected

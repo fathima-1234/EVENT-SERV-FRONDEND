@@ -41,7 +41,7 @@ function Register() {
     setIsSubmitting(true); 
 
     try {
-      const response = await instance.post('http://127.0.0.1:8000/api/register/', {
+      const response = await instance.post('api/register/', {
         first_name,
         last_name,
         email,

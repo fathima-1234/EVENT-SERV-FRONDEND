@@ -26,8 +26,8 @@ function Event1() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const events = await instance.get('http://127.0.0.1:8000/events/user-events/');
-        const categories = await instance.get('http://127.0.0.1:8000/events/categories/');
+        const events = await instance.get('events/user-events/');
+        const categories = await instance.get('events/categories/');
         setEventsData(events.data);
         setFilteredEventsData(events.data);
         setCategoryData(categories.data);
@@ -57,7 +57,7 @@ function Event1() {
 
   const fetchUniqueCity = async () => {
     try {
-       const response = await instance.get('http://127.0.0.1:8000/events/user-locations/')
+       const response = await instance.get('events/user-locations/')
       setUniqueCity(response.data.city);
     } catch (error) {
       console.error('Error fetching unique location:', error);
@@ -281,7 +281,8 @@ function Event1() {
                   <div className="mb-2">
                     <img
                       className="object-center object-cover rounded-xl h-56 w-80"
-                      src={`${BASE_URL}${event.image}`}
+                       src={`${event.image}`}
+                    
                       alt={event.name}
                     />
                   </div>

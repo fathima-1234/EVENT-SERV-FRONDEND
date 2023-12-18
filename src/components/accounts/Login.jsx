@@ -40,7 +40,7 @@ function Login() {
     };
   
     try {
-      const response = await instance.post('http://localhost:8000/api/token/', data);
+      const response = await instance.post('api/token/', data);
       console.log(response);
   
       // Handle success response

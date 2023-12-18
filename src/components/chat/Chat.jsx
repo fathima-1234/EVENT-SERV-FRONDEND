@@ -30,7 +30,7 @@ const ChatComponent = () => {
   
       if (userData.is_servicer) {
         instance
-          .get(`http://127.0.0.1:8000/chat/rooms/?servicer=${userData.userID}`) // Fetch only servicer's rooms
+          .get(`chat/rooms/?servicer=${userData.userID}`) // Fetch only servicer's rooms
           .then((response) => {
             setRooms(response.data);
             console.log(response.data);
@@ -43,7 +43,7 @@ const ChatComponent = () => {
           });
       } else {
         instance
-          .get('http://127.0.0.1:8000/chat/allrooms/') // Fetch all rooms for normal user
+          .get('chat/allrooms/') // Fetch all rooms for normal user
           .then((response) => {
             setRooms(response.data);
             console.log(response.data);
@@ -75,7 +75,7 @@ const ChatComponent = () => {
       };
 
       instance
-        .get(`http://127.0.0.1:8000/chat/rooms/${activeRoomId}/messages/`)
+        .get(`chat/rooms/${activeRoomId}/messages/`)
         .then((response) => {
           setMessages(response.data);
           setIsLoading(false);
@@ -103,7 +103,7 @@ const ChatComponent = () => {
   
     try {
       // Your Axios request
-      instance.post(`http://127.0.0.1:8000/chat/rooms/${activeRoomId}/messages/`, message)
+      instance.post(`chat/rooms/${activeRoomId}/messages/`, message)
         .then((response) => {
           const newMessage = response.data;
           setMessages((prevMessages) => [...prevMessages, newMessage]);

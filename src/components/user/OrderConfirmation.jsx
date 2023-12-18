@@ -51,7 +51,7 @@ function EventDetail() {
 
   async function getSlotsForEvent(eventId) {
     try {
-      const response = await instance.get(`http://127.0.0.1:8000/events/slots/${eventId}/`, {
+      const response = await instance.get(`events/slots/${eventId}/`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         }
@@ -74,7 +74,7 @@ function EventDetail() {
   useEffect(() => {
     async function getEventDetails() {
       try {
-        const response = await instance.get(`http://127.0.0.1:8000/events/single-event/${id}/`, {
+        const response = await instance.get(`events/single-event/${id}/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
@@ -98,7 +98,7 @@ function EventDetail() {
 
     async function getMenus() {
       try {
-        const response = await instance.get('http://127.0.0.1:8000/events/menu/');
+        const response = await instance.get('events/menu/');
         return response.data;
       } catch (error) {
         console.error('Failed to fetch menus:', error);
@@ -178,7 +178,7 @@ function EventDetail() {
   const handleConfirmBooking = async () => {
     try {
       const response = await instance.post(
-        'http://127.0.0.1:8000/api/stripe/confirm-booking/',
+        'api/stripe/confirm-booking/',
         {
           eventId: event.id,
           selectedSlots: selectedSlots.map(slot => slot.id),

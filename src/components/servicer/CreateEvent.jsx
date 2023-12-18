@@ -23,7 +23,7 @@ function CreateEvent() {
     async function categories() {
       try {
         const userId = JSON.parse(localStorage.getItem("user")).userID;
-        const response = await instance.get("http://127.0.0.1:8000/events/categories1/", {
+        const response = await instance.get("events/categories1/", {
           params: { servicer: userId },
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -69,7 +69,7 @@ function CreateEvent() {
     
    
     
-    const res = await instance.post("http://127.0.0.1:8000/events/create-event/",form,{
+    const res = await instance.post("events/create-event/",form,{
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `Bearer ${localStorage.getItem("token")}`,
