@@ -8,11 +8,11 @@ function CreateMenu() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const userJSON = localStorage.getItem('user');
+  const token = localStorage.getItem("token");
+  const userJSON = localStorage.getItem("user");
   const user = userJSON ? JSON.parse(userJSON) : null;
   console.log(user);
-  console.log(token)
+  console.log(token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -48,10 +48,8 @@ function CreateMenu() {
     }
   };
 
-
   return (
     <div className="bg-gradient-to-br h-screen  font-serif w-screen flex items-center justify-center">
-   
       <Toaster position="top-center" reverseOrder={false} />
 
       <form

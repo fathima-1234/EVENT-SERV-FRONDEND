@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Card, Input, Typography } from "@material-tailwind/react";
-import { toast, Toaster } from 'react-hot-toast';
+import { toast, Toaster } from "react-hot-toast";
 import instance from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 
 export default function CreateRoom() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
 
   const navigate = useNavigate();
@@ -15,24 +15,24 @@ export default function CreateRoom() {
     e.preventDefault();
     try {
       const formData = new FormData();
-      formData.append('name', name);
-      formData.append('description', description);
-      formData.append('image', image);
+      formData.append("name", name);
+      formData.append("description", description);
+      formData.append("image", image);
       const servicer = JSON.parse(localStorage.getItem("user")).userID;
-      formData.append('servicer', servicer);
+      formData.append("servicer", servicer);
 
-      await instance.post('chat/roomCreate/', formData, {
+      await instance.post("chat/roomCreate/", formData, {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          "Content-Type": "multipart/form-data",
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-     
-      toast.success('Successfully created Room');
+
+      toast.success("Successfully created Room");
       navigate("/dashboards");
     } catch (error) {
       console.error(error);
-      toast.error('Could not create Room');
+      toast.error("Could not create Room");
     }
   };
 
@@ -45,14 +45,15 @@ export default function CreateRoom() {
     <div className="flex items-center font-serif justify-center h-screen">
       <Card color="transparent" shadow={false} className="w-96">
         <Toaster position="top-center" reverseOrder={false} limit={1} />
-        <Typography variant="h4" color="blue-gray" className="font-serif mt-3 text-center">
+        <Typography
+          variant="h4"
+          color="blue-gray"
+          className="font-serif mt-3 text-center"
+        >
           Create Room
         </Typography>
-  
-        <form
-          className="mt-8 mb-2"
-          onSubmit={handleFormSubmit}
-        >
+
+        <form className="mt-8 mb-2" onSubmit={handleFormSubmit}>
           <div className="mb-4 flex flex-col gap-6">
             <Input
               size="lg"
@@ -64,7 +65,6 @@ export default function CreateRoom() {
             />
             <Input
               size="lg"
-             
               label="Description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}

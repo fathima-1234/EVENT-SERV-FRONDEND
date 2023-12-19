@@ -1,9 +1,9 @@
-import React from 'react';
-import profile from '../../assets/profile.webp';
+import React from "react";
+import profile from "../../assets/profile.webp";
 
 const ChatSidebar = ({ rooms, activeRoomId, setActiveRoomId, isServicer }) => {
   const filteredRooms = isServicer
-    ? rooms.filter(room => room.servicer.id === isServicer.userID)
+    ? rooms.filter((room) => room.servicer.id === isServicer.userID)
     : rooms;
 
   return (
@@ -14,7 +14,7 @@ const ChatSidebar = ({ rooms, activeRoomId, setActiveRoomId, isServicer }) => {
           <li
             key={room.id}
             className={`flex items-center py-3 px-4 cursor-pointer ${
-              room.id === activeRoomId ? 'bg-gray-300' : 'hover:bg-gray-100'
+              room.id === activeRoomId ? "bg-gray-300" : "hover:bg-gray-100"
             }`}
             onClick={() => setActiveRoomId(room.id)}
           >
@@ -26,8 +26,9 @@ const ChatSidebar = ({ rooms, activeRoomId, setActiveRoomId, isServicer }) => {
               />
             </div>
             <div className="flex-grow">
-              <h3 className="text-start ms-3 text-lg font-semibold">{room.name}</h3>
-              
+              <h3 className="text-start ms-3 text-lg font-semibold">
+                {room.name}
+              </h3>
             </div>
             {room.unreadCount > 0 && (
               <div className="bg-green-500 rounded-full w-5 h-5 flex items-center justify-center">

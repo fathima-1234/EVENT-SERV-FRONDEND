@@ -2,20 +2,16 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 import hero from "../../assets/hero.png";
-import instance from '../../utils/axios.js';
+import instance from "../../utils/axios.js";
 
 function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
- 
-
-
- 
+  const [loading, setLoading] = useState(false);
 
   const handleHomeButtonClick = () => {
-    
-    navigate('/');
+    navigate("/");
   };
 
   const handleEmailChange = (e) => {
@@ -28,72 +24,81 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     if (!email || !password) {
-      alert('Please enter both email and password.');
+      alert("Please enter both email and password.");
       return;
     }
-  
+
     const data = {
       email: email,
       password: password,
     };
-  
+
     try {
-      const response = await instance.post('api/token/', data);
+      const response = await instance.post("api/token/", data);
       console.log(response);
-  
+
       // Handle success response
       if (response.status === 200) {
         const token = response.data.token;
         const user = response.data.user;
-  
+
         // Save the token and user data in local storage
-        console.log(user, "------------------------user------------------------");
-        localStorage.setItem('token', token);
-        localStorage.setItem('user', JSON.stringify(user));
-  
+        console.log(
+          user,
+          "------------------------user------------------------",
+        );
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+
         // Check user role and status for redirection
         if (response.data.user.is_servicer) {
-          console.log('servicer');
-          navigate('/dashboards');
+          console.log("servicer");
+          navigate("/dashboards");
         } else if (response.data.user.is_admin) {
-          console.log('admin');
-          navigate('/adminhome');
+          console.log("admin");
+          navigate("/adminhome");
         } else if (response.data.user.is_active) {
-          console.log('active user');
-          navigate('/');
+          console.log("active user");
+          navigate("/");
         } else {
-          console.log(response.data, 'inactive user');
+          console.log(response.data, "inactive user");
         }
-  
+
         toast.success("Login Success");
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
         // Handle unauthorized error response
         toast.error("Invalid email or password");
-        console.error('Error:', error.response.data.message);
+        console.error("Error:", error.response.data.message);
       } else {
         // Handle other errors
         toast.error("Login Failed");
-        console.error('Error:', error);
+        console.error("Error:", error);
       }
     }
   };
-  
-  
+
   return (
     <div className="h-screen flex items-center justify-center font-serif bg-gray-100">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-full sm:w-96 bg-white rounded-lg shadow p-8">
-        <h1 className="text-3xl  text-center text-customColorA mb-8">USER LOGIN</h1>
+        <h1 className="text-3xl  text-center text-customColorA mb-8">
+          USER LOGIN
+        </h1>
         <div className="flex items-center justify-center mb-8">
           <img src={hero} alt="Login" className="h-32 w-32" />
         </div>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 font-serif mb-2">Email</label>
+            <label
+              htmlFor="email"
+              className="block text-gray-700 font-serif mb-2"
+            >
+              Email
+            </label>
             <input
               id="email"
               type="email"
@@ -105,7 +110,12 @@ function Login() {
             />
           </div>
           <div className="mb-6">
-            <label htmlFor="password" className="block text-gray-700 font-serif mb-2">Password</label>
+            <label
+              htmlFor="password"
+              className="block text-gray-700 font-serif mb-2"
+            >
+              Password
+            </label>
             <input
               id="password"
               type="password"
@@ -129,11 +139,11 @@ function Login() {
             SignUp
           </Link>
           <button
-          onClick={handleHomeButtonClick}
-          className="w-full bg-customColorA text-black rounded-full py-2 px-4 mt-4 font-serif focus:outline-none focus:shadow-outline"
-        >
-          Go to Home Page
-        </button>
+            onClick={handleHomeButtonClick}
+            className="w-full bg-customColorA text-black rounded-full py-2 px-4 mt-4 font-serif focus:outline-none focus:shadow-outline"
+          >
+            Go to Home Page
+          </button>
         </p>
       </div>
     </div>

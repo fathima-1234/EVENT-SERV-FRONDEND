@@ -5,7 +5,7 @@ import instance from "../../utils/axios";
 
 function Servicer() {
   const [servicers, setServicers] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   async function getServicers() {
     const response = await instance.get("servicers/");
@@ -26,13 +26,12 @@ function Servicer() {
     instance.get(`blockservicer/${id}/`).then(() => getServicers());
   };
 
-
-
-
-
   const handleSearch = () => {
-    const filteredServicers = servicers.filter(servicer =>
-      servicer.first_name.toLowerCase().includes(searchQuery.toLowerCase()) || servicer.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||servicer.email.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredServicers = servicers.filter(
+      (servicer) =>
+        servicer.first_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        servicer.last_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        servicer.email.toLowerCase().includes(searchQuery.toLowerCase()),
     );
     return filteredServicers;
   };
@@ -46,55 +45,43 @@ function Servicer() {
         <div className="w-full h-screen px-3 font-serif">
           <Toaster position="top-center" reverseOrder={false} />
           <div className="w-full p-5 flex justify-between">
-          <h1 className='  text-3xl text-start  ms-4'>Servicers</h1>
-          <input
+            <h1 className="  text-3xl text-start  ms-4">Servicers</h1>
+            <input
               type="text"
-              placeholder='&#x1F50D; Search '
+              placeholder="&#x1F50D; Search "
               className="border border-primaryBlue border-solid focus:outline-none px-2 w-1/5 rounded-lg "
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-            /></div>
+            />
+          </div>
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
             <table className="w-full border-collapse bg-white text-left text-sm text-black">
               <thead className="bg-gray-50">
                 <tr>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 font-large text-black"
-                  >
+                  <th scope="col" className="px-6 py-4 font-large text-black">
                     Name
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 font-large text-black"
-                  >
+                  <th scope="col" className="px-6 py-4 font-large text-black">
                     Email
                   </th>
-                 
-                  <th
-                    scope="col"
-                    className="px-6 py-4 font-large text-black"
-                  >
+
+                  <th scope="col" className="px-6 py-4 font-large text-black">
                     Phone number
                   </th>
-                  <th
-                    scope="col"
-                    className="px-6 py-4 font-large text-black"
-                  >
+                  <th scope="col" className="px-6 py-4 font-large text-black">
                     Status
                   </th>
-                  <th
-                  scope="col"
-                  className="px-6 py-4 font-large text-black"
-                >
-                  Action
-                </th>
+                  <th scope="col" className="px-6 py-4 font-large text-black">
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100 border-t border-gray-100">
-                 {filteredServicers.map((servicer, index) => (
+                {filteredServicers.map((servicer, index) => (
                   <tr className="hover:bg-gray-50" key={index}>
-                    <td className="px-6 py-4">{servicer.first_name} {servicer.last_name}</td>
+                    <td className="px-6 py-4">
+                      {servicer.first_name} {servicer.last_name}
+                    </td>
                     <td className="px-6 py-4">{servicer.email}</td>
                     <td className="px-6 py-4">{servicer.phone_number}</td>
                     <td class="px-6 py-4">
@@ -143,14 +130,10 @@ function Servicer() {
               </tbody>
             </table>
           </div>
-        
         </div>
       </div>
     </div>
   );
-} 
-  
-
-
+}
 
 export default Servicer;

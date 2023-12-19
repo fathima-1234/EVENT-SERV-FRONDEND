@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
 import register from "../../assets/hero.png";
-import instance from '../../utils/axios';
+import instance from "../../utils/axios";
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -15,8 +15,9 @@ function Register() {
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { first_name, last_name, email, phone_number,password, password2 } = formData;
-  
+  const { first_name, last_name, email, phone_number, password, password2 } =
+    formData;
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -28,7 +29,13 @@ function Register() {
       return; // Prevent multiple submissions
     }
 
-    if (first_name.trim() === "" || last_name.trim() === "" || email.trim() === "" || phone_number.trim() === "" || password.trim() === "" ) {
+    if (
+      first_name.trim() === "" ||
+      last_name.trim() === "" ||
+      email.trim() === "" ||
+      phone_number.trim() === "" ||
+      password.trim() === ""
+    ) {
       toast.error("Please fill in all fields.");
       return;
     }
@@ -38,10 +45,10 @@ function Register() {
       return;
     }
 
-    setIsSubmitting(true); 
+    setIsSubmitting(true);
 
     try {
-      const response = await instance.post('api/register/', {
+      const response = await instance.post("api/register/", {
         first_name,
         last_name,
         email,
@@ -65,9 +72,9 @@ function Register() {
       } else {
         toast.error("Something went wrong");
       }
-    } catch(error) {
+    } catch (error) {
       toast.error("User with same email id already exists.");
-    }finally {
+    } finally {
       setIsSubmitting(false); // Set submitting state back to false
     }
   };
@@ -76,7 +83,9 @@ function Register() {
     <div className="h-screen flex items-center justify-center font-serif bg-customColorD">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="w-full sm:w-96 bg-white rounded-lg shadow p-8">
-        <h1 className="text-3xl font-bold text-center text-customColorA mb-8">SIGNUP</h1>
+        <h1 className="text-3xl font-bold text-center text-customColorA mb-8">
+          SIGNUP
+        </h1>
         <div className="flex items-center justify-center mb-8">
           <img src={register} alt="Register" className="h-32 w-32" />
         </div>
@@ -114,7 +123,7 @@ function Register() {
               value={phone_number}
               onChange={handleChange}
             />
-          
+
             <input
               type="password"
               name="password"

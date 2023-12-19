@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { Toaster } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import Sidebar from './Sidebar';
-import instance from '../../utils/axios';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
-import { AiOutlineArrowUp } from 'react-icons/ai';
+import React, { useState, useEffect } from "react";
+import { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "./Sidebar";
+import instance from "../../utils/axios";
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+} from "recharts";
+import { AiOutlineArrowUp } from "react-icons/ai";
 function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
   const [users, setUsers] = useState([]);
@@ -14,7 +22,7 @@ function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedMonth, setSelectedMonth] = useState(null); // Track selected month for filtering
   const [filteredSalesData, setFilteredSalesData] = useState([]);
-  
+
   const [showScrollButton, setShowScrollButton] = useState(false);
 
   const handleScroll = () => {
@@ -26,22 +34,32 @@ function AdminDashboard() {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   const navigate = useNavigate();
-  
+
   // Your provided logic to fetch sales data by month
   const monthNames = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
   ];
 
   const monthsOfYear = monthNames.map((month, index) => ({
@@ -52,16 +70,21 @@ function AdminDashboard() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (token) {
-          instance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+          instance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         }
 
-        const [bookingsResponse, usersResponse, servicersResponse, eventsResponse] = await Promise.all([
-          instance.get('api/stripe/allbookings/'),
-          instance.get('users/'),
-          instance.get('servicers/'),
-          instance.get('events/home-list-event/')
+        const [
+          bookingsResponse,
+          usersResponse,
+          servicersResponse,
+          eventsResponse,
+        ] = await Promise.all([
+          instance.get("api/stripe/allbookings/"),
+          instance.get("users/"),
+          instance.get("servicers/"),
+          instance.get("events/home-list-event/"),
         ]);
 
         setBookings(bookingsResponse.data);
@@ -71,7 +94,7 @@ function AdminDashboard() {
 
         // Your provided logic to fetch sales data by month
         const salesByMonth = {};
-        bookingsResponse.data.forEach(booking => {
+        bookingsResponse.data.forEach((booking) => {
           const date = new Date(booking.booking_date);
           const monthIndex = date.getMonth();
           const amount = booking.event.price_per_person * 0.1;
@@ -92,7 +115,7 @@ function AdminDashboard() {
 
         setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
         // Handle error or redirect if needed
       }
     }
@@ -101,11 +124,9 @@ function AdminDashboard() {
   }, []);
 
   useEffect(() => {
-
-    
     // Filter sales data by selected month
     if (selectedMonth !== null) {
-      const filteredData = bookings.filter(booking => {
+      const filteredData = bookings.filter((booking) => {
         const date = new Date(booking.booking_date);
         return date.getMonth() === selectedMonth;
       });
@@ -134,69 +155,75 @@ function AdminDashboard() {
     }
   }, [selectedMonth, bookings]);
 
- 
   const calculateMonthlySales = () => {
     if (selectedMonth === null) {
       return []; // Return an empty array if no month is selected
     }
-  
-    const filteredData = bookings.filter(booking => {
+
+    const filteredData = bookings.filter((booking) => {
       const date = new Date(booking.booking_date);
       return date.getMonth() === selectedMonth;
     });
-  
+
     if (filteredData.length === 0) {
       return []; // Return an empty array if there are no bookings for the selected month
     }
-  
+
     const firstDate = new Date(filteredData[0].booking_date);
     firstDate.setDate(1); // Set to the first day of the selected month
-  
-    const lastDate = new Date(filteredData[filteredData.length - 1].booking_date);
+
+    const lastDate = new Date(
+      filteredData[filteredData.length - 1].booking_date,
+    );
     lastDate.setMonth(selectedMonth + 1, 0); // Set to the last day of the selected month
-  
+
     const totalDays = (lastDate - firstDate) / (24 * 60 * 60 * 1000) + 1;
-  
+
     const dailySalesData = Array.from({ length: totalDays }, (_, dayIndex) => {
       const currentDate = new Date(firstDate);
       currentDate.setDate(currentDate.getDate() + dayIndex);
-  
+
       const daySales = filteredData
-        .filter(booking => {
+        .filter((booking) => {
           const bookingDate = new Date(booking.booking_date);
           return bookingDate.toDateString() === currentDate.toDateString();
         })
-        .reduce((total, booking) => total + booking.event.price_per_person * 0.1, 0);
-  
+        .reduce(
+          (total, booking) => total + booking.event.price_per_person * 0.1,
+          0,
+        );
+
       const dayLabel = currentDate.getDate();
-  
+
       return {
         day: dayLabel,
         amount: daySales,
       };
     });
-  
+
     return dailySalesData;
   };
-  
-  
+
   const dailySalesData = calculateMonthlySales();
   return (
     <div
       className="flex h-full text-white"
       style={{
-        animation: isLoading ? 'fadein 2s ease-in-out' : 'none'
+        animation: isLoading ? "fadein 2s ease-in-out" : "none",
       }}
     >
       <Sidebar />
-      <div className='flex-1 px-5 w-full min-h-screen mx-5 font-serif mt-2 py-8 font-poppins flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl'>
+      <div className="flex-1 px-5 w-full min-h-screen mx-5 font-serif mt-2 py-8 font-poppins flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl">
         <div className="w-full px-3 md:px-8 lg:px-16 font-poppins">
           <Toaster position="top-center" reverseOrder={false} />
-  
-          <h2 className="text-5xl font-bold mb-4 text-black-3xl hover:text-green-300 transition-colors duration-300" style={{ color: 'black' }}>
+
+          <h2
+            className="text-5xl font-bold mb-4 text-black-3xl hover:text-green-300 transition-colors duration-300"
+            style={{ color: "black" }}
+          >
             Admin Dashboard
           </h2>
-  
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="bg-black p-4 rounded-md shadow-md">
               <h2 className="text-xl font-semibold mb-2">Total Users</h2>
@@ -216,21 +243,29 @@ function AdminDashboard() {
             </div>
           </div>
 
-          <button onClick={() => window.open('/payment/sales-report/', '_blank')}>
-          Download Sales Report (HTML)
-        </button>
-        <button onClick={() => window.open('/payment/sales-report-pdf/', '_blank')}>
-          Download Sales Report (PDF)
-        </button>
-        
+          <button
+            onClick={() => window.open("/payment/sales-report/", "_blank")}
+          >
+            Download Sales Report (HTML)
+          </button>
+          <button
+            onClick={() => window.open("/payment/sales-report-pdf/", "_blank")}
+          >
+            Download Sales Report (PDF)
+          </button>
+
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
             {/* Display Yearly Sales Chart */}
             <h2 className="text-2xl mb-2 text-black">Monthly Booking</h2>
             <div className="flex items-center mb-4">
               <select
                 className="bg-black border rounded-md py-1 px-2 mr-3"
-                value={selectedMonth !== null ? selectedMonth : ''}
-                onChange={e => setSelectedMonth(e.target.value === '' ? null : parseInt(e.target.value))}
+                value={selectedMonth !== null ? selectedMonth : ""}
+                onChange={(e) =>
+                  setSelectedMonth(
+                    e.target.value === "" ? null : parseInt(e.target.value),
+                  )
+                }
               >
                 <option value="">All Months</option>
                 {monthNames.map((month, index) => (
@@ -240,7 +275,11 @@ function AdminDashboard() {
                 ))}
               </select>
             </div>
-            <LineChart width={1000} height={400} data={selectedMonth !== null ? filteredSalesData : salesDataYear}>
+            <LineChart
+              width={1000}
+              height={400}
+              data={selectedMonth !== null ? filteredSalesData : salesDataYear}
+            >
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="period" />
               <YAxis />
@@ -249,19 +288,18 @@ function AdminDashboard() {
               <Line type="monotone" dataKey="amount" stroke="#000000" />
             </LineChart>
           </div>
-  
+
           <div className="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
             {/* Display Daily Sales Chart */}
             <h2 className="text-2xl mb-2 text-black">Booking by Day</h2>
             <LineChart width={1000} height={400} data={dailySalesData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="day" />
-                <YAxis />
-                <Tooltip />
-                <Legend />
-                <Line dataKey="amount" fill="#000000" />
-              </LineChart>
-
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="day" />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line dataKey="amount" fill="#000000" />
+            </LineChart>
           </div>
         </div>
       </div>
@@ -270,10 +308,10 @@ function AdminDashboard() {
           className="fixed bottom-8 right-8 p-2 bg-black text-white rounded-md shadow-md"
           onClick={scrollToTop}
         >
-        <AiOutlineArrowUp size={24} />
+          <AiOutlineArrowUp size={24} />
         </button>
       )}
     </div>
   );
-                }
+}
 export default AdminDashboard;

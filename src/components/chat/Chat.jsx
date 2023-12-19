@@ -1,33 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
-import ChatSidebar from './chatSideBar';
+import React, { useState, useEffect, useRef } from "react";
+import ChatSidebar from "./chatSideBar";
 import { Avatar } from "@material-tailwind/react";
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-hot-toast';
-import instance from '../../utils/axios';
-import profile from '../../assets/profile.webp';
-
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import instance from "../../utils/axios";
+import profile from "../../assets/profile.webp";
 
 const ChatComponent = () => {
-  const [author, setAuthor] = useState('');
+  const [author, setAuthor] = useState("");
   const [rooms, setRooms] = useState([]);
   const [activeRoomId, setActiveRoomId] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [newMessage, setNewMessage] = useState('');
-  const [user,setUser] = useState({})
+  const [newMessage, setNewMessage] = useState("");
+  const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(true); // Loading indicator
-  const userData = JSON.parse(localStorage.getItem('user'));
+  const userData = JSON.parse(localStorage.getItem("user"));
 
   const scroll = useRef();
 
   const socketRef = useRef(null);
-  
-  const history = useNavigate()
+
+  const history = useNavigate();
 
   useEffect(() => {
     try {
-      const userData = JSON.parse(localStorage.getItem('user'));
+      const userData = JSON.parse(localStorage.getItem("user"));
       setAuthor(userData.userID);
-  
+
       if (userData.is_servicer) {
         instance
           .get(`chat/rooms/?servicer=${userData.userID}`) // Fetch only servicer's rooms
@@ -38,12 +37,12 @@ const ChatComponent = () => {
             setIsLoading(false); // Finished loading
           })
           .catch((error) => {
-            console.error('Error:', error);
+            console.error("Error:", error);
             setIsLoading(false);
           });
       } else {
         instance
-          .get('chat/allrooms/') // Fetch all rooms for normal user
+          .get("chat/allrooms/") // Fetch all rooms for normal user
           .then((response) => {
             setRooms(response.data);
             console.log(response.data);
@@ -51,24 +50,22 @@ const ChatComponent = () => {
             setIsLoading(false); // Finished loading
           })
           .catch((error) => {
-            console.error('Error:', error);
+            console.error("Error:", error);
             setIsLoading(false);
           });
       }
     } catch (e) {
-      history('/login');
-      toast.error('Please Login for community chat', { duration: 5000 });
+      history("/login");
+      toast.error("Please Login for community chat", { duration: 5000 });
     }
   }, []);
-  
-  
-
-
 
   useEffect(() => {
     if (activeRoomId) {
-      socketRef.current = new WebSocket(`wss://localhost:8000/ws/chat/${activeRoomId}/`);
-     
+      socketRef.current = new WebSocket(
+        `wss://localhost:8000/ws/chat/${activeRoomId}/`,
+      );
+
       socketRef.current.onmessage = (event) => {
         const message = JSON.parse(event.data);
         setMessages((prevMessages) => [...prevMessages, message]);
@@ -81,7 +78,7 @@ const ChatComponent = () => {
           setIsLoading(false);
         })
         .catch((error) => {
-          console.error('Error:', error);
+          console.error("Error:", error);
           setIsLoading(false);
         });
     }
@@ -92,7 +89,6 @@ const ChatComponent = () => {
     };
   }, [activeRoomId]);
 
- 
   const sendMessage = () => {
     const message = {
       content: newMessage,
@@ -100,10 +96,11 @@ const ChatComponent = () => {
       room_id: activeRoomId,
       room: activeRoomId,
     };
-  
+
     try {
       // Your Axios request
-      instance.post(`chat/rooms/${activeRoomId}/messages/`, message)
+      instance
+        .post(`chat/rooms/${activeRoomId}/messages/`, message)
         .then((response) => {
           const newMessage = response.data;
           setMessages((prevMessages) => [...prevMessages, newMessage]);
@@ -111,57 +108,58 @@ const ChatComponent = () => {
         .catch((error) => {
           // Handle Axios errors
           if (error.response) {
-            console.error('Server responded with error:', error.response.data);
+            console.error("Server responded with error:", error.response.data);
           } else if (error.request) {
-            console.error('No response received:', error.request);
+            console.error("No response received:", error.request);
           } else {
-            console.error('Error setting up request:', error.message);
+            console.error("Error setting up request:", error.message);
           }
         });
-      
+
       // if (socketRef.current) {
       //   socketRef.current.send(JSON.stringify(message));
-     if (socketRef.current && socketRef.current.readyState === WebSocket.OPEN) {
+      if (
+        socketRef.current &&
+        socketRef.current.readyState === WebSocket.OPEN
+      ) {
         socketRef.current.send(JSON.stringify(message));
-      }else {
-        console.error('WebSocket connection is not open.');
+      } else {
+        console.error("WebSocket connection is not open.");
       }
-  
-      setNewMessage('');
+
+      setNewMessage("");
     } catch (error) {
       // Handle other errors (outside Axios)
-      console.error('An error occurred:', error);
+      console.error("An error occurred:", error);
     }
   };
-  
+
   useEffect(() => {
-    scroll.current?.scrollIntoView({ behavior: 'smooth' });
+    scroll.current?.scrollIntoView({ behavior: "smooth" });
     async function getUser() {
       try {
-        const userData = JSON.parse(localStorage.getItem('user'));
+        const userData = JSON.parse(localStorage.getItem("user"));
         setUser(userData.userID);
-        
-       
       } catch (e) {
         console.log(e);
       }
     }
-    getUser()
+    getUser();
   }, [messages]);
 
-const userIsServicer = user && user.is_servicer;
-const isUserMessage = (message) => message.author === user.userID && message.room.servicer.id === user.userID;
-const isServicerMessage = (message) => message.author === message.room.servicer.id && message.room.servicer.id === user.userID;
+  const userIsServicer = user && user.is_servicer;
+  const isUserMessage = (message) =>
+    message.author === user.userID && message.room.servicer.id === user.userID;
+  const isServicerMessage = (message) =>
+    message.author === message.room.servicer.id &&
+    message.room.servicer.id === user.userID;
 
-const filteredMessages = messages.filter((message) => {
-  if (message.room && message.room.servicer) {
-    return isUserMessage(message) || isServicerMessage(message);
-  }
-  return false;
-});
-
-
-
+  const filteredMessages = messages.filter((message) => {
+    if (message.room && message.room.servicer) {
+      return isUserMessage(message) || isServicerMessage(message);
+    }
+    return false;
+  });
 
   return (
     <div className="flex h-screen  font-serif rounded-md bg-gray-200">
@@ -176,22 +174,20 @@ const filteredMessages = messages.filter((message) => {
             <h2 className="text-xl font-bold">Messages</h2>
           </div>
           <div className="flex-grow p-6 overflow-y-auto">
-              {messages.length > 0 ? (
-              messages.map((message, index) => (  
-  
-              
+            {messages.length > 0 ? (
+              messages.map((message, index) => (
                 <div
                   key={index}
                   ref={scroll}
                   className={`flex ${
-                    message.author === author ? 'justify-end' : 'justify-start'
+                    message.author === author ? "justify-end" : "justify-start"
                   } mb-4`}
                 >
                   <div
                     className={`${
                       message.author === author
-                        ? 'bg-green-500 text-white self-end'
-                        : 'bg-blue-500 text-white self-start'
+                        ? "bg-green-500 text-white self-end"
+                        : "bg-blue-500 text-white self-start"
                     } py-2 px-4 rounded-lg max-w-md`}
                   >
                     <div className="flex items-center">
@@ -204,34 +200,31 @@ const filteredMessages = messages.filter((message) => {
                             src={profile}
                             alt="avatar"
                             size="xs"
-                            className='rounded-full h-6 w-6'
+                            className="rounded-full h-6 w-6"
                           />
                         </>
                       ) : (
                         <>
                           <Avatar
                             src={
-                              message.author === user ? (
-                                "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHQv_th9wq3ivQ1CVk7UZRxhbPq64oQrg5Q&usqp=CAU"
-                              ) : (
-                                profile
-                              )
+                              message.author === user
+                                ? "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSzHQv_th9wq3ivQ1CVk7UZRxhbPq64oQrg5Q&usqp=CAU"
+                                : profile
                             }
                             alt="avatar"
                             size="xs"
                             className="mr-3 rounded-full h-6 w-6"
                           />
-                          {message.content && (
-                            <div>{message.content}</div>
-                          )}
+                          {message.content && <div>{message.content}</div>}
                         </>
                       )}
                     </div>
                     <div className="text-xs text-gray-400 mt-1">
-                    {new Date(message.timestamp).toLocaleTimeString([], {
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}                  </div>
+                      {new Date(message.timestamp).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}{" "}
+                    </div>
                   </div>
                 </div>
               ))

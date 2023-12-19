@@ -8,11 +8,11 @@ function CreateCategory() {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
-  const token = localStorage.getItem('token');
-  const userJSON = localStorage.getItem('user');
+  const token = localStorage.getItem("token");
+  const userJSON = localStorage.getItem("user");
   const user = userJSON ? JSON.parse(userJSON) : null;
   console.log(user);
-  console.log(token)
+  console.log(token);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,12 +27,16 @@ function CreateCategory() {
     formData.append("servicer", servicerID); // Include
 
     try {
-      const res = await instance.post("events/create-event-category/", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "multipart/form-data",
+      const res = await instance.post(
+        "events/create-event-category/",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
         },
-      });
+      );
 
       if (res.status === 201) {
         toast.success("Eventcatogory created");
@@ -48,10 +52,8 @@ function CreateCategory() {
     }
   };
 
-
   return (
     <div className="bg-gradient-to-br h-screen w-screen flex items-center justify-center">
-   
       <Toaster position="top-center" reverseOrder={false} />
 
       <form

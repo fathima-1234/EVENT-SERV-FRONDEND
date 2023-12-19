@@ -4,7 +4,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import instance from "../../utils/axios";
 import { Link } from "react-router-dom";
-import { AiFillEye } from 'react-icons/ai';
+import { AiFillEye } from "react-icons/ai";
 import { FaTimes } from "react-icons/fa";
 import Swal from "sweetalert2";
 
@@ -28,7 +28,7 @@ function Eventservicer() {
     name: "",
     year_manufactured: "",
     seating_capacity: "",
-    is_veg:"",
+    is_veg: "",
     description: "",
     category: 0, // Assuming 0 is the default category value
     price_per_person: 0, // Assuming 0 is the default price value
@@ -45,13 +45,10 @@ function Eventservicer() {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentEvent = events.slice(firstPostIndex, lastPostIndex);
 
-
   const handleOpen = (id) => {
     setSelectedEventId(id);
     setOpen(true);
   };
-
-  
 
   const handleEdit = (event) => {
     setSelectedEventId(event.id);
@@ -68,62 +65,52 @@ function Eventservicer() {
     setEditedEvent({
       ...editedEvent,
       category: categoryId,
-      
     });
   };
   const handleInputChange = (event) => {
     const { name, value, files } = event.target;
 
     if (name === "image") {
-     if (files && files.length > 0) {
-       setUploadedImage(files[0]);
-       setEditedEvent((preveditedEvent) => ({
-       ...preveditedEvent,
-       image: URL.createObjectURL(files[0]),
-      }));
-     }}else
-     {
+      if (files && files.length > 0) {
+        setUploadedImage(files[0]);
+        setEditedEvent((preveditedEvent) => ({
+          ...preveditedEvent,
+          image: URL.createObjectURL(files[0]),
+        }));
+      }
+    } else {
       setEditedEvent((preveditedEvent) => ({
         ...preveditedEvent,
         [name]: value,
       }));
     }
   };
-  
 
   const handleSave = async () => {
     try {
-      console.log(editedEvent,'edit');
+      console.log(editedEvent, "edit");
       const formData = new FormData();
-    
+
       formData.append("name", editedEvent.name);
-   
+
       formData.append("description", editedEvent.description);
       formData.append("category", editedEvent.category);
-     
+
       formData.append("year_manufactured", editedEvent.year_manufactured);
-      
-      
+
       formData.append("seating_capacity", editedEvent.seating_capacity);
-      
-      
-     
-      
 
       if (uploadedImage) {
         formData.append("image", uploadedImage);
       }
-     
+
       formData.append("price_per_person", editedEvent.price_per_person);
-console.log(formData,'asdfghj');
+      console.log(formData, "asdfghj");
       await updateevent(selectedEventId, formData);
     } catch (error) {
       toast.error("Failed to save the event");
     }
   };
-
- 
-
 
   const updateevent = async (id, formData) => {
     try {
@@ -134,7 +121,7 @@ console.log(formData,'asdfghj');
           headers: {
             "Content-Type": "multipart/form-data",
           },
-        }
+        },
       );
       getevents();
       toast.success("event updated successfully");
@@ -146,8 +133,7 @@ console.log(formData,'asdfghj');
 
   const deleteEvent = async (event_id) => {
     console.log(event_id);
-  
-    
+
     Swal.fire({
       title: "Are you sure?",
       text: "You are about to delete this car. This action cannot be undone.",
@@ -160,7 +146,9 @@ console.log(formData,'asdfghj');
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          const response = await instance.delete(`events/delete-event/${event_id}/`);
+          const response = await instance.delete(
+            `events/delete-event/${event_id}/`,
+          );
           console.log(response);
           getevents();
           toast.success("Event deleted successfully");
@@ -182,13 +170,8 @@ console.log(formData,'asdfghj');
     navigate("/createevent");
   };
   const handleButtonClicks = () => {
-    navigate('/singleeventdetail/${event?.id}'); 
+    navigate("/singleeventdetail/${event?.id}");
   };
-
-  
-
-  
-
 
   useEffect(() => {
     const userId = JSON.parse(localStorage.getItem("user")).userID;
@@ -197,18 +180,17 @@ console.log(formData,'asdfghj');
 
   const getevents = async (userId) => {
     try {
-      const response = await instance.get("events/event/", { params: { renter: userId },
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },});
+      const response = await instance.get("events/event/", {
+        params: { renter: userId },
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       setEvents(response.data);
     } catch (error) {
       toast.error("Failed to fetch events");
     }
   };
-
-
-
 
   useEffect(() => {
     const userId = JSON.parse(localStorage.getItem("user")).userID;
@@ -229,7 +211,6 @@ console.log(formData,'asdfghj');
     }
   };
 
-
   async function getuser() {
     const response = await instance.get("users/");
     setUser(response.data);
@@ -248,13 +229,15 @@ console.log(formData,'asdfghj');
   const handleCreateSlot = (eventId) => {
     navigate(`/createslot/${eventId}`);
   };
-  
+
   return (
     <div className="">
       <Sidebar />
       <div className="px-5 w-full h-auto min-h-screen mx-5 mt-2 py-8 font-serif flex flex-col place-content-start place-items-center bg-white shadow-xl rounded-xl">
         <div className="w-full h-screen px-3 font-poppins">
-          <h1 className="text-3xl font-bold text-center text-custom-red mt-10 mb-6">Your Events</h1>
+          <h1 className="text-3xl font-bold text-center text-custom-red mt-10 mb-6">
+            Your Events
+          </h1>
           <div className="w-full p-5 mb-10">
             <button
               className="bg-blue-600 text-white rounded px-4 py-2 float-right transition duration-300 ease-in-out transform hover:scale-110 hover:bg-blue-700 focus:outline-none"
@@ -267,29 +250,53 @@ console.log(formData,'asdfghj');
             <table className="w-full border-collapse bg-white text-left text-sm text-gray-500">
               <thead className="bg-gray-50">
                 <tr>
-                  <th scope="col" className="px-6 py-4 font-semibold text-gray-900">
+                  <th
+                    scope="col"
+                    className="px-6 py-4 font-semibold text-gray-900"
+                  >
                     Name
                   </th>
-                  <th scope="col" className="px-6 py-4 font-semibold text-gray-900">
+                  <th
+                    scope="col"
+                    className="px-6 py-4 font-semibold text-gray-900"
+                  >
                     Event Image
-                  </th> 
-                 
-                  <th scope="col" className="px-6 py-4 font-semibold text-gray-900">
+                  </th>
+
+                  <th
+                    scope="col"
+                    className="px-6 py-4 font-semibold text-gray-900"
+                  >
                     Description
                   </th>
-                  <th scope="col" className="px-6 py-4 font-semibold text-gray-900">
+                  <th
+                    scope="col"
+                    className="px-6 py-4 font-semibold text-gray-900"
+                  >
                     Price per person
                   </th>
-                  <th scope="col" className="px-6 py-4 font-semibold text-gray-900">
+                  <th
+                    scope="col"
+                    className="px-6 py-4 font-semibold text-gray-900"
+                  >
                     Category
                   </th>
-                  <th scope="col" className="px-6 py-4 font-semibold text-gray-900">
+                  <th
+                    scope="col"
+                    className="px-6 py-4 font-semibold text-gray-900"
+                  >
                     Actions
                   </th>
-                  <th scope="col" className="px-6 py-4 font-semibold text-gray-900">
+                  <th
+                    scope="col"
+                    className="px-6 py-4 font-semibold text-gray-900"
+                  >
                     View
                   </th>
-                  <th scope="col" className="px-6 py-4 font-semibold text-gray-900">
+                  <th
+                    scope="col"
+                    className="px-6 py-4 font-semibold text-gray-900"
+                  >
                     Status
                   </th>
                 </tr>
@@ -300,10 +307,14 @@ console.log(formData,'asdfghj');
                     <td className="px-6 py-4">
                       <p>{event.name}</p>
                     </td>
-                     <td className="px-6 py-4">
-                      <img className="h-16 w-16 object-cover rounded" src={event.image} alt={event.name} />
-                    </td> 
-                    
+                    <td className="px-6 py-4">
+                      <img
+                        className="h-16 w-16 object-cover rounded"
+                        src={event.image}
+                        alt={event.name}
+                      />
+                    </td>
+
                     <td className="px-6 py-4">
                       <p>{event.description}</p>
                     </td>
@@ -321,41 +332,43 @@ console.log(formData,'asdfghj');
                         >
                           Delete
                         </button>
-                        
-                         <button
+
+                        <button
                           className="bg-green-600 text-white rounded px-2 py-1 transition duration-300 ease-in-out transform hover:scale-110 hover:bg-red-700 focus:outline-none"
-                         onClick={() => handleEdit(event)}
+                          onClick={() => handleEdit(event)}
                         >
                           Edit
-                        </button> 
+                        </button>
                         <button
                           onClick={() => handleCreateSlot(event.id)}
                           className="bg-green-600 text-white rounded px-2 py-1 transition duration-300 ease-in-out transform hover:scale-110 hover:bg-green-700 focus:outline-none"
                         >
                           Add Slot
-                          </button> 
-                      </div> 
-                    </td> 
-              <td>
-                      <Link className="action-text" to={`/singleeventdetail/${event?.id}`}>
+                        </button>
+                      </div>
+                    </td>
+                    <td>
+                      <Link
+                        className="action-text"
+                        to={`/singleeventdetail/${event?.id}`}
+                      >
                         <p className="edit">
                           <AiFillEye /> View
                         </p>
                       </Link>
                     </td>
-                    <td><p className='text-black'> {event.status }</p>
-                        </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+                    <td>
+                      <p className="text-black"> {event.status}</p>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-            
-
-         <Dialog open={open} onClose={handleClose}>
+      <Dialog open={open} onClose={handleClose}>
         <DialogHeader>
           <div className="flex items-center justify-between">
             {editMode ? "Edit Event" : "Confirmation"}
@@ -366,109 +379,116 @@ console.log(formData,'asdfghj');
               ripple="dark"
               className="p-1 text-black"
             >
-              <FaTimes className="bg-black text-black"/>
+              <FaTimes className="bg-black text-black" />
             </Button>
           </div>
         </DialogHeader>
         <DialogBody divider>
-        <div className="h-96 overflow-y-auto">
-          {editMode ? (
-            <div>
-              <label className="text-gray-600">Name</label>
-              <Input
-                name="name"
-                value={editedEvent.name || ""}
-                onChange={handleInputChange}
-                placeholder="Enter name"
-                className="mt-1"
-              />
-             
-              <label className="text-gray-600">Year Manufactured</label>
-              <Input
-                name="year_manufactured"
-                value={editedEvent.year_manufactured || ""}
-                onChange={handleInputChange}
-                placeholder="Enter Year Manufactured"
-                className="mt-1"
-              />
-             
-              
-              <label className="text-gray-600">Seating Capacity</label>
-              <Input
-                name="seating_capacity"
-                value={editedEvent.seating_capacity || ""}
-                onChange={handleInputChange}
-                placeholder="Enter Seating Capacity"
-                className="mt-1"
-              />
-             
-              Yes
-              <label className="text-gray-600">Description</label>
-              <Input
-                name="description"
-                value={editedEvent.description || ""}
-                onChange={handleInputChange}
-                placeholder="Enter description"
-                className="mt-1"
-              />
-              <label className="text-gray-600">Price_per_Person</label>
-              <Input
-                name="price"
-                value={editedEvent.price_per_person || ""}
-                onChange={handleInputChange}
-                placeholder="Enter price"
-                className="mt-1"
-              />
-              <br />
-              <label className="text-gray-600">Category</label>
-              <select
-                value={editedEvent.category.id}
-                onChange={handleCategoryChange}
-                name="category"
-                className="border rounded-lg p-1 mt-1"
-              >
-                {category.map((category) => (
-                  <option value={category.id} key={category.name}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-  
-              <br />
-              <label className="text-gray-600">Image</label>
-              <div className="flex items-center mt-1">
-                {uploadedImage ? (
-                  <span className="mr-2">{uploadedImage.name}</span>
-                ) : (
-                  <span className="mr-2">Choose file</span>
-                )}
-                <input type="file" name="image" onChange={handleInputChange} />
-              </div> 
-            </div>
-          ) : (
-            "Are you sure you want to delete this event?"
-          )}
+          <div className="h-96 overflow-y-auto">
+            {editMode ? (
+              <div>
+                <label className="text-gray-600">Name</label>
+                <Input
+                  name="name"
+                  value={editedEvent.name || ""}
+                  onChange={handleInputChange}
+                  placeholder="Enter name"
+                  className="mt-1"
+                />
+                <label className="text-gray-600">Year Manufactured</label>
+                <Input
+                  name="year_manufactured"
+                  value={editedEvent.year_manufactured || ""}
+                  onChange={handleInputChange}
+                  placeholder="Enter Year Manufactured"
+                  className="mt-1"
+                />
+                <label className="text-gray-600">Seating Capacity</label>
+                <Input
+                  name="seating_capacity"
+                  value={editedEvent.seating_capacity || ""}
+                  onChange={handleInputChange}
+                  placeholder="Enter Seating Capacity"
+                  className="mt-1"
+                />
+                Yes
+                <label className="text-gray-600">Description</label>
+                <Input
+                  name="description"
+                  value={editedEvent.description || ""}
+                  onChange={handleInputChange}
+                  placeholder="Enter description"
+                  className="mt-1"
+                />
+                <label className="text-gray-600">Price_per_Person</label>
+                <Input
+                  name="price"
+                  value={editedEvent.price_per_person || ""}
+                  onChange={handleInputChange}
+                  placeholder="Enter price"
+                  className="mt-1"
+                />
+                <br />
+                <label className="text-gray-600">Category</label>
+                <select
+                  value={editedEvent.category.id}
+                  onChange={handleCategoryChange}
+                  name="category"
+                  className="border rounded-lg p-1 mt-1"
+                >
+                  {category.map((category) => (
+                    <option value={category.id} key={category.name}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+                <br />
+                <label className="text-gray-600">Image</label>
+                <div className="flex items-center mt-1">
+                  {uploadedImage ? (
+                    <span className="mr-2">{uploadedImage.name}</span>
+                  ) : (
+                    <span className="mr-2">Choose file</span>
+                  )}
+                  <input
+                    type="file"
+                    name="image"
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+            ) : (
+              "Are you sure you want to delete this event?"
+            )}
           </div>
         </DialogBody>
         <DialogFooter>
-          <Button variant="text" color="red" onClick={handleClose} className="mr-1 text-black">
+          <Button
+            variant="text"
+            color="red"
+            onClick={handleClose}
+            className="mr-1 text-black"
+          >
             Cancel
           </Button>
           {editMode ? (
-            <Button variant="gradient" color="green" onClick={handleSave}className="mr-1 text-black">
+            <Button
+              variant="gradient"
+              color="green"
+              onClick={handleSave}
+              className="mr-1 text-black"
+            >
               Save
             </Button>
           ) : (
-            <Button variant="gradient" color="green" className=" text-black" >
+            <Button variant="gradient" color="green" className=" text-black">
               Confirm
             </Button>
           )}
         </DialogFooter>
       </Dialog>
-        <ToastContainer position="top-center" /> 
-       
-      </div>
-    
+      <ToastContainer position="top-center" />
+    </div>
   );
 }
 

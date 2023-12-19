@@ -2,12 +2,11 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import instance,  { BASE_URL } from '../../utils/axios';
+import instance, { BASE_URL } from "../../utils/axios";
 
 import { Link } from "react-router-dom";
-import { AiFillEye } from 'react-icons/ai';
-import "./Events.css"; 
-
+import { AiFillEye } from "react-icons/ai";
+import "./Events.css";
 
 function Event() {
   const [events, setEvents] = useState([]);
@@ -18,8 +17,6 @@ function Event() {
   const firstPostIndex = lastPostIndex - postsPerPage;
   const currentEvents = events.slice(firstPostIndex, lastPostIndex);
 
-
-  
   async function getEvents() {
     const response = await instance.get("events/event/");
     setEvents(response.data);
@@ -35,15 +32,8 @@ function Event() {
     getEvents();
   }, []);
 
-
- 
-
- 
- 
   const statusChange = (id) => {
     instance.get(`events/block-event/${id}`).then(() => getEvents());
-   
-   
   };
 
   const options = [
@@ -81,7 +71,7 @@ function Event() {
                   <th scope="col" className="px-6 py-4 font-large text-black">
                     Short Description
                   </th>
-                 
+
                   <th scope="col" className="px-6 py-4 font-large text-black">
                     Status
                   </th>
@@ -97,7 +87,11 @@ function Event() {
                       <p>{event.name}</p>
                     </td>
                     <td className="px-6 py-4">
-                      <img className="event-image" src={`${event.image}`} alt={event.name} />
+                      <img
+                        className="event-image"
+                        src={`${event.image}`}
+                        alt={event.name}
+                      />
                     </td>
                     <td className="px-6 py-4">
                       <p>{event.category.name}</p>
@@ -105,18 +99,20 @@ function Event() {
                     <td className="px-6 py-4">
                       <p>{event.description}</p>
                     </td>
-                    
-                    
+
                     <td className="action-col">
-                    
-                   <p className="text-green-500">{ event.status }</p>   
-                     
+                      <p className="text-green-500">{event.status}</p>
                     </td>
-                    <td><Link className="action-text" to={`/singleeventdetail/${event?.id}`}>
+                    <td>
+                      <Link
+                        className="action-text"
+                        to={`/singleeventdetail/${event?.id}`}
+                      >
                         <p className="edit">
                           <AiFillEye /> View
                         </p>
-                      </Link></td>
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>

@@ -2,14 +2,12 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { toast, Toaster } from "react-hot-toast";
-import instance from '../../utils/axios';
-
+import instance from "../../utils/axios";
 
 function ServicerLogin() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const history = useNavigate();
-
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -23,7 +21,7 @@ function ServicerLogin() {
     e.preventDefault();
 
     if (!email || !password) {
-      alert('Please enter both email and password.');
+      alert("Please enter both email and password.");
       return;
     }
 
@@ -32,61 +30,61 @@ function ServicerLogin() {
       password: password,
     };
 
-  
     try {
-        const response = await instance.post('http://127.0.0.1:8000/api/token/', data);
-        console.log(response);
-  
-        // Handle success response
-        if (response.status === 200) {
-          const token = response.data.token;
-          const user = response.data.user;
-          // Save the token in local storage
-          console.log(user,"------------------------user------------------------");
-          localStorage.setItem('token', token);
-          localStorage.setItem('user', JSON.stringify(user));
-          // Redirect to home page or perform other actions
-          toast.success("Login Success")
-          if (response.data.user.is_renter) {
-            navigate('/dashboards');
-            console.log('if');
-          } 
-         
-          else {
-            console.log(response.data, 'else');
-            toast.error("Use USer login")
-          }
-        }
-      } catch (error) {
-        if (error.response && error.response.status === 401) {
-          // Handle unauthorized error response
-  
-          toast.error("Invalid email or password")
-          console.error('Error:', error.response.data.message);
+      const response = await instance.post(
+        "http://127.0.0.1:8000/api/token/",
+        data,
+      );
+      console.log(response);
+
+      // Handle success response
+      if (response.status === 200) {
+        const token = response.data.token;
+        const user = response.data.user;
+        // Save the token in local storage
+        console.log(
+          user,
+          "------------------------user------------------------",
+        );
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        // Redirect to home page or perform other actions
+        toast.success("Login Success");
+        if (response.data.user.is_renter) {
+          navigate("/dashboards");
+          console.log("if");
         } else {
-          // Handle other errors
-          toast.error("Login Failed")
-          console.error('Error:', error);
+          console.log(response.data, "else");
+          toast.error("Use USer login");
         }
       }
-    };
+    } catch (error) {
+      if (error.response && error.response.status === 401) {
+        // Handle unauthorized error response
 
-  
-
-  const handleHomeButtonClick = () => {
-    navigate('/');
+        toast.error("Invalid email or password");
+        console.error("Error:", error.response.data.message);
+      } else {
+        // Handle other errors
+        toast.error("Login Failed");
+        console.error("Error:", error);
+      }
+    }
   };
 
-   const navigate = useNavigate();
-  const servicerLoginStatus = localStorage.getItem('servicerLoginStatus');
-  if (servicerLoginStatus == 'true') {
+  const handleHomeButtonClick = () => {
+    navigate("/");
+  };
+
+  const navigate = useNavigate();
+  const servicerLoginStatus = localStorage.getItem("servicerLoginStatus");
+  if (servicerLoginStatus == "true") {
     navigate("/dashboards");
- 
-}
+  }
 
   useEffect(() => {
-    const servicerLoginStatus = localStorage.getItem('servicerLoginStatus');
-    if (servicerLoginStatus === 'true') {
+    const servicerLoginStatus = localStorage.getItem("servicerLoginStatus");
+    if (servicerLoginStatus === "true") {
       navigate("/dashboards");
     }
   }, []);
@@ -94,7 +92,9 @@ function ServicerLogin() {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h1 className="text-3xl px-11 font-bold text-gray-800 mb-6">Servicer Login</h1>
+        <h1 className="text-3xl px-11 font-bold text-gray-800 mb-6">
+          Servicer Login
+        </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">
             <input
@@ -165,20 +165,23 @@ function ServicerLogin() {
           </button>
         </form>
         <p className="mt-4 text-sm text-gray-600">
-          Not yet registered?{' '}
-          <Link to="/servicersignup" className="text-black font-serif hover:underline">
+          Not yet registered?{" "}
+          <Link
+            to="/servicersignup"
+            className="text-black font-serif hover:underline"
+          >
             Sign Up
           </Link>
         </p>
         <button
-        onClick={handleHomeButtonClick}
-        className="w-full bg-customColorA text-black rounded-full py-2 px-4 mt-4 font-serif focus:outline-none focus:shadow-outline"
-      >
-        Go to Home Page
-      </button>
+          onClick={handleHomeButtonClick}
+          className="w-full bg-customColorA text-black rounded-full py-2 px-4 mt-4 font-serif focus:outline-none focus:shadow-outline"
+        >
+          Go to Home Page
+        </button>
       </div>
     </div>
   );
-};
+}
 
 export default ServicerLogin;

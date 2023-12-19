@@ -1,12 +1,11 @@
-
-import React, { useState } from 'react';
-import ReactModal from 'react-modal';
+import React, { useState } from "react";
+import ReactModal from "react-modal";
 
 const EditProfileModal = ({ isOpen, onClose, onSave }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    profile_photo: '', // Add an image property to the form data
+    name: "",
+    email: "",
+    profile_photo: "", // Add an image property to the form data
   });
 
   const handleChange = (e) => {
@@ -30,7 +29,7 @@ const EditProfileModal = ({ isOpen, onClose, onSave }) => {
   };
 
   return (
-    <div className='font-serif'>
+    <div className="font-serif">
       <ReactModal
         isOpen={isOpen}
         onRequestClose={onClose}
@@ -73,7 +72,7 @@ const EditProfileModal = ({ isOpen, onClose, onSave }) => {
           <img
             src={URL.createObjectURL(formData.profile_photo)}
             alt="Profile Preview"
-            style={{ width: '50px', height: '50px' }}
+            style={{ width: "50px", height: "50px" }}
             className="mb-4 rounded-full"
           />
         )}

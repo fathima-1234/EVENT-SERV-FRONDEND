@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import Navbar1 from "./Navbar1";
-import instance,  { BASE_URL } from '../../utils/axios';
-import ReactModal from 'react-modal';
-import EditProfileModal from './EditProfileModal';
-import toast from 'react-hot-toast'; 
+import instance, { BASE_URL } from "../../utils/axios";
+import ReactModal from "react-modal";
+import EditProfileModal from "./EditProfileModal";
+import toast from "react-hot-toast";
 
 // ReactModal.setAppElement('#root');
-const rootElement = document.getElementById('root');
+const rootElement = document.getElementById("root");
 ReactModal.setAppElement(rootElement);
 
 const Profile = () => {
@@ -28,33 +28,36 @@ const Profile = () => {
     // Fetch user profile data from the API when the component mounts
     const fetchUserProfile = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         if (!token) {
-          console.error('User is not authenticated');
+          console.error("User is not authenticated");
           return;
         }
 
-        const response = await fetch('https://eventsev.onrender.com/user/user-createprofile/', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+        const response = await fetch(
+          "https://eventsev.onrender.com/user/user-createprofile/",
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+            // credentials: 'include',
           },
-          // credentials: 'include',
-        });
-        console.log('Response:', response);
+        );
+        console.log("Response:", response);
 
         if (!response.ok) {
-          throw new Error('Failed to fetch user profile');
+          throw new Error("Failed to fetch user profile");
         }
 
         const profileData = await response.json();
         setUserData(profileData);
       } catch (error) {
-        console.error('Error fetching user profile:', error.message);
+        console.error("Error fetching user profile:", error.message);
         if (error.response) {
-          console.error('Status code:', error.response.status);
-          console.error('Response data:', error.response.data);
+          console.error("Status code:", error.response.status);
+          console.error("Response data:", error.response.data);
         }
       }
     };
@@ -67,45 +70,52 @@ const Profile = () => {
 
   const saveChanges = async (formData) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       if (!token) {
-        console.error('User is not authenticated');
+        console.error("User is not authenticated");
         return;
       }
-  
+
       const form = new FormData();
-      form.append('name', formData.name);  // Add other form fields as needed
-      form.append('email', formData.email);
-      form.append('profile_photo', formData.profile_photo);  // Assuming profile_photo is a file
-  
-      const response = await fetch('https://eventsev.onrender.com/user/user-profile/update/', {
-        method: 'PATCH',
-        headers: {
-          'Authorization': `Bearer ${token}`,
+      form.append("name", formData.name); // Add other form fields as needed
+      form.append("email", formData.email);
+      form.append("profile_photo", formData.profile_photo); // Assuming profile_photo is a file
+
+      const response = await fetch(
+        "https://eventsev.onrender.com/user/user-profile/update/",
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: form,
         },
-        body: form,
-      });
-  
+      );
+
       if (!response.ok) {
         const errorData = await response.json();
-        console.error('Failed to update user profile:', response.status, errorData);
-        throw new Error('Failed to update user profile');
+        console.error(
+          "Failed to update user profile:",
+          response.status,
+          errorData,
+        );
+        throw new Error("Failed to update user profile");
       }
-  
+
       // Handle the success case as needed
-      console.log('Profile updated successfully');
-      toast.success('Profile updated successfully');
+      console.log("Profile updated successfully");
+      toast.success("Profile updated successfully");
       closeModal();
     } catch (error) {
-      console.error('Error updating user profile:', error.message);
+      console.error("Error updating user profile:", error.message);
     }
   };
 
   return (
     <div className="w-full h-screen flex flex-col">
-      <Toaster position='top-center' limit={3} />
+      <Toaster position="top-center" limit={3} />
       <div className="w-full h-20 flex items-center">
-      <Navbar1 />
+        <Navbar1 />
       </div>
 
       <div className="flex items-center justify-center">
@@ -117,7 +127,6 @@ const Profile = () => {
           <div className="w-full p-4 rounded-lg hover:bg-customColorD text-center transition duration-300 transform hover:scale-105">
             {userData.profile_photo ? (
               <img
-             
                 src={`${userData.profile_photo}`}
                 alt="Profile"
                 className="w-20 h-20 rounded-full  text-center"
@@ -129,15 +138,17 @@ const Profile = () => {
             <p className="text-lg font-serif mb-2">{userData.email}</p>
 
             <div className="text-right">
-              <button onClick={openModal}
-              className="bg-customColorA hover:bg-slate-700 focus:ring focus:ring-slate-700 text-black rounded-full px-4 py-2 transition duration-300"
-              >Edit Profile
+              <button
+                onClick={openModal}
+                className="bg-customColorA hover:bg-slate-700 focus:ring focus:ring-slate-700 text-black rounded-full px-4 py-2 transition duration-300"
+              >
+                Edit Profile
               </button>
               {/* Pass userData and saveChanges to your modal */}
               <EditProfileModal
                 isOpen={isModalOpen}
                 onClose={closeModal}
-                onSave={saveChanges} 
+                onSave={saveChanges}
                 userData={userData}
                 formData={formData}
               />
@@ -150,5 +161,3 @@ const Profile = () => {
 };
 
 export default Profile;
-
-

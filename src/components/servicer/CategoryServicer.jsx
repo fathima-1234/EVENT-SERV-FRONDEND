@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import { Toaster } from "react-hot-toast";
 import { useState, useEffect } from "react";
 import instance from "../../utils/axios";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer, toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
@@ -45,10 +45,9 @@ function Categories() {
     }
   };
 
-
   const deleteCategory = async (cat_id) => {
     console.log(cat_id);
-  
+
     // Show the SweetAlert confirmation dialog
     Swal.fire({
       title: "Are you sure?",
@@ -63,7 +62,7 @@ function Categories() {
       if (result.isConfirmed) {
         try {
           const response = await instance.delete(
-            `events/delete-event-category/${cat_id}/`
+            `events/delete-event-category/${cat_id}/`,
           );
           console.log(response);
           getCategory();
@@ -75,7 +74,6 @@ function Categories() {
       }
     });
   };
-
 
   const handleClose = () => {
     setSelectedCategory(null);
@@ -89,17 +87,20 @@ function Categories() {
       formData.append("description", selectedCategory.description);
       formData.append("image", selectedCategory.image);
 
-      const response = await instance.get(`events/update-event-category/${selectedCategory.id}`, formData);
+      const response = await instance.get(
+        `events/update-event-category/${selectedCategory.id}`,
+        formData,
+      );
 
       if (response.status === 200) {
-        toast.success('Category updated successfully');
+        toast.success("Category updated successfully");
         getCategory();
         handleClose();
       } else {
-        toast.error('Failed to update category');
+        toast.error("Failed to update category");
       }
     } catch (error) {
-      toast.error('Failed to update category');
+      toast.error("Failed to update category");
     }
   };
 
@@ -127,7 +128,7 @@ function Categories() {
                   <th scope="col" className="px-6 py-4 font-serif text-black">
                     event Image
                   </th>
-                 
+
                   <th scope="col" className="px-6 py-4 font-serif text-black">
                     Actions
                   </th>
@@ -141,10 +142,14 @@ function Categories() {
                     </td>
                     <td className="px-6 py-4">
                       <p>
-                        <img className="w-4/5 h-24" src={category.image} alt={category.name} />
+                        <img
+                          className="w-4/5 h-24"
+                          src={category.image}
+                          alt={category.name}
+                        />
                       </p>
                     </td>
-                  
+
                     <td className="px-6 py-4">
                       <div className="flex space-x-2 text-black ">
                         <Button
@@ -219,11 +224,7 @@ function Categories() {
           >
             Cancel
           </Button>
-          <Button
-            variant="gradient"
-            color="green"
-            onClick={handleEdit}
-          >
+          <Button variant="gradient" color="green" onClick={handleEdit}>
             Save
           </Button>
         </DialogFooter>

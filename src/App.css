@@ -1,7 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Playball&display=swap'); 
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500&family=Playball&display=swap');
-.body{
-    font-family: 'Playball', cursive; 
-    font-family: 'Instrument Sans', sans-serif;
-    
-} 
+@import url("https://fonts.googleapis.com/css2?family=Playball&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@500&family=Playball&display=swap");
+.body {
+  font-family: "Playball", cursive;
+  font-family: "Instrument Sans", sans-serif;
+}
