@@ -12,12 +12,19 @@ function NavBar1() {
   const handleNav = () => {
     setNav(!nav);
   };
-  function searchCar(e) {
-    if (e.key === "Enter") {
-      navigate(`/events?key=${search}`);
+  
+  const searchEvent = () => {
+    if (search.trim() !== "") {
+      navigate(`/home-list-event?key=${search}`);
     }
-  }
+  };
 
+  const handleKeyPress = (e) => {
+    // Check if 'e' and 'e.key' are defined before using them
+    if (e && e.key === "Enter") {
+      searchEvent();
+    }
+  };
   const user_auth = localStorage.getItem("token");
   let user_name;
   if (user_auth) {
@@ -41,20 +48,29 @@ function NavBar1() {
         <h1 className="font-Playball text-5xl text-customColorA">
           Event<span className="text-black">Serv</span>{" "}
         </h1>
-        <div className="hidden md:flex px-5 rounded-3xl border-2 border-black py-2 place-items-center ms-3 transition duration-300 ease-in-out transform hover:scale-105">
-          <AiOutlineSearch className="text-black" size={20} />
-
-          <input
-            type="text"
-            className="focus:outline-none ms-2 bg-transparent placeholder:text-black text-customColorC"
-            value={search}
-            placeholder="Search"
-            onKeyPress={(e) => {
-              searchCar(e);
-            }}
-          />
-        </div>
+       
+         {/* <div className="hidden md:flex px-5 rounded-3xl border-2 border-black py-2 place-items-center ms-3 transition duration-300 ease-in-out transform hover:scale-105"> */}
+         <div className="hidden md:flex px-5 rounded-3xl border-2 border-black py-2 place-items-center ms-3 transition duration-300 ease-in-out transform hover:scale-105">
+  <div className="flex items-center bg-white rounded-full p-2"></div>
+        <AiOutlineSearch className="text-black" size={20} />
+        <input
+          type="text"
+          className="focus:outline-none ms-2 bg-transparent placeholder:text-black text-customColorC"
+          value={search}
+          placeholder="Search"
+          onChange={(e) => setSearch(e.target.value)}
+          onKeyPress={handleKeyPress}
+        />
+         </div>
+        {/* Add a submit button or handle the form submission */}
+        {/* <button
+           className="ml-2 px-4 py-2 font-serif bg-customColorA text-black rounded-md transition duration-300 ease-in-out transform hover:scale-105"
+          onClick={searchEvent}
+        >
+          Search
+        </button> */}
       </div>
+      {/* </div> */}
 
       <div className="hidden md:flex  gap-3 items-center">
         <Link to="/">

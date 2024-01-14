@@ -18,20 +18,21 @@ const Menucard = () => {
 
         <div className="max-w-[1240px] mx-auto grid md:grid-cols-4 gap-8">
           <div className="w-full shadow-xl bg-customColorD flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300">
-            <img className="w-100 h-[250px]  bg-white" src={menu} alt="/" />
+          <Link to={"/menu"}> <img className="w-100 h-[250px]  bg-white" src={menu} alt="/" />  </Link>
 
             <h2 className="text-2xl font-bold text-center font-serif py-4">
               Main Course
             </h2>
 
             <Link to={"/menu"}>
-              <button className="bg-customColorA w-[50px] rounded-lg  mx-24 ">
-                <HiArrowSmRight size={20} />
-              </button>
+            <button className="flex items-center justify-center bg-customColorA w-[50px] rounded-lg mx-24">
+  <HiArrowSmRight size={20} />
+</button>
+
             </Link>
           </div>
           <div className="w-full shadow-xl bg-customColorD flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300">
-            <img className="w-100 h-[250px] bg-white" src={menu5} alt="/" />
+          <Link to={"/menu"}> <img className="w-100 h-[250px] bg-white" src={menu5} alt="/" />  </Link>
 
             <h2 className="text-2xl font-bold text-center font-serif py-4">
               Starter
@@ -39,26 +40,28 @@ const Menucard = () => {
 
             <Link to={"/menu"}>
               {" "}
-              <button className="bg-customColorA w-[50px] rounded-lg  mx-24 ">
-                <HiArrowSmRight size={20} />
-              </button>
+              <button className="flex items-center justify-center bg-customColorA w-[50px] rounded-lg mx-24">
+  <HiArrowSmRight size={20} />
+</button>
+
             </Link>
           </div>
           <div className="w-full shadow-xl bg-customColorD flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300">
-            <img className="w-100 h-[250px] bg-white" src={menu6} alt="/" />
+          <Link to={"/menu"}> <img className="w-100 h-[250px] bg-white" src={menu6} alt="/" />  </Link>
 
             <h2 className="text-2xl font-bold text-center font-serif py-4">
               Drinks
             </h2>
 
             <Link to={"/menu"}>
-              <button className="bg-customColorA w-[50px] rounded-lg  mx-24 ">
-                <HiArrowSmRight size={20} />
-              </button>
+            <button className="flex items-center justify-center bg-customColorA w-[50px] rounded-lg mx-24">
+  <HiArrowSmRight size={20} />
+</button>
+
             </Link>
           </div>
           <div className="w-full shadow-xl bg-customColorD flex flex-col p-4 my-4 rounded-lg hover:scale-105 duration-300">
-            <img className="w-100 h-[250px] bg-white" src={menu4} alt="/" />
+          <Link to={"/menu"}> <img className="w-100 h-[250px] bg-white" src={menu4} alt="/" />  </Link>
 
             <h2 className="text-2xl font-bold text-center font-serif py-4">
               Our Specials
@@ -66,9 +69,11 @@ const Menucard = () => {
 
             <Link to={"/menu"}>
               {" "}
-              <button className="bg-customColorA w-[50px] rounded-lg  mx-24 ">
-                <HiArrowSmRight size={20} />
-              </button>
+              
+              <button className="flex items-center justify-center bg-customColorA w-[50px] rounded-lg mx-24">
+  <HiArrowSmRight size={20} />
+</button>
+
             </Link>
           </div>
         </div>

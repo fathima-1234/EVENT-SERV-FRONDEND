@@ -17,7 +17,8 @@ function Event1() {
   const [selectedCity, setSelectedCity] = useState("");
   const [sortBy, setSortBy] = useState("lowToHigh");
   const [priceRange, setPriceRange] = useState("");
-
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
   const location = useLocation();
   const queryParams = queryString.parse(location.search);
   const initialSearchQuery = queryParams.search || "";
@@ -165,6 +166,33 @@ function Event1() {
     }
     setFilteredEventsData(filteredEvents);
   };
+  const indexOfLastItem = currentPage === 1 ? 5 : currentPage * itemsPerPage;
+  const indexOfFirstItem = (currentPage - 1) * itemsPerPage;
+  const currentItems = filteredEventsData.slice(indexOfFirstItem, indexOfLastItem);
+  
+  // ...
+  
+  const totalPages = Math.ceil(filteredEventsData.length / itemsPerPage);
+  
+  const renderPageNumbers = () => {
+    const pageNumbers = [];
+  
+    for (let i = 1; i <= totalPages; i++) {
+      pageNumbers.push(
+        <li
+          key={i}
+          className={`inline-block mx-1 px-3 py-1 border ${currentPage === i ? 'bg-customColorA text-white' : 'bg-white text-customColorA'}`}
+          onClick={() => setCurrentPage(i)}
+        >
+          {i}
+        </li>
+      );
+    }
+  
+    return pageNumbers;
+  };
+  
+  
 
   return (
     <div>
@@ -288,8 +316,10 @@ function Event1() {
             />
           </div>
         ) : (
+          <div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-16">
-            {filteredEventsData
+            {/* {filteredEventsData */}
+            {currentItems
               .filter((event) => event.is_active === true)
               .map((event) => (
                 <div
@@ -333,6 +363,31 @@ function Event1() {
                 </div>
               ))}
           </div>
+           
+          <div className="flex justify-center my-4 font-serif text-black">
+      <button
+        className={`mx-1 px-3 py-1 border font-serif rounded-full focus:outline-none ${
+          currentPage === 1 ? 'bg-customColorD text-white' : 'bg-white text-customColorA'
+        }`}
+        onClick={() => setCurrentPage(1)}
+      >
+        First
+      </button>
+      {renderPageNumbers()}
+      <button
+        className={`mx-1 px-3 py-1 border font-serif rounded-full focus:outline-none ${
+          currentPage === totalPages ? 'bg-customColorD text-white' : 'bg-white text-customColorA'
+        }`}
+        onClick={() => setCurrentPage(totalPages)}
+      >
+        Last
+      </button>
+    </div>
+
+
+          </div>
+       
+      
         )}
       </section>
 

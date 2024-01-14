@@ -1,6 +1,6 @@
 import React from "react";
 import hero from "../../assets/hero.png";
-
+import { Link } from "react-router-dom";
 const Blog = () => {
   return (
     <div className="w-full bg-customColorD py-16 px-4">
@@ -11,9 +11,16 @@ const Blog = () => {
             Book <span className="text-customColorA">EventServ</span> <br></br>
             For Your Dream Event
           </p>
-          <button className="bg-customColorA font-serif text-black w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3">
+          {/* <button className="bg-customColorA font-serif text-black w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3">
             Book Now
-          </button>
+          </button> */}
+          {/* <Link to="/home-list-event" className="bg-customColorA font-serif text-black w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3">
+             Book Now
+          </Link> */}
+          <Link to="/home-list-event" className="text-center bg-customColorA font-serif text-black w-[200px] rounded-md font-medium my-6 mx-auto md:mx-0 py-3">
+  Book Now
+</Link>
+
         </div>
 
         <img className="w-[500px] mx-auto my-4" src={hero} alt="/" />

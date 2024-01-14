@@ -44,7 +44,10 @@ function Register() {
       toast.error("Passwords do not match.");
       return;
     }
-
+    if (phone_number.length !== 10) {
+      toast.error("Phone number must have exactly 10 digits.");
+      return;
+    }
     setIsSubmitting(true);
 
     try {

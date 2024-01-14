@@ -111,7 +111,7 @@ function EventDetail() {
     if (selected.length > 0) {
       setDateAvailabilityStatus("Date available");
     } else {
-      setDateAvailabilityStatus("Date not available.");
+      setDateAvailabilityStatus("Servicer slot not available.");
     }
   };
   useEffect(() => {
