@@ -62,7 +62,7 @@ function Register() {
       });
 
       console.log(response);
-      if (response.status === 200) {
+      if (response.status === 200  && response.data.msg === "Registration Success") {
         setFormData({
           first_name: "",
           last_name: "",
@@ -73,9 +73,10 @@ function Register() {
         });
         toast.success("Please activate your email ");
       } else {
-        toast.error("Something went wrong");
+        // toast.error("Something went wrong");
+        toast.error(response.data.msg || "Registration failed. Please try again.");
       }
-    } catch (error) {
+     } catch (error) {
       toast.error("User with same email id already exists.");
     } finally {
       setIsSubmitting(false); // Set submitting state back to false

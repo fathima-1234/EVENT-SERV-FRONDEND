@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import register from "../../assets/hero.png";
 import instance from "../../utils/axios";
 
-const baseUrl = "http://127.0.0.1:8000/api-servicer/servicersignup/";
+const baseUrl = "api-servicer/servicersignup/";
 
 function ServicerRegister() {
   const [formData, setFormData] = useState({
@@ -49,7 +49,7 @@ function ServicerRegister() {
     setIsSubmitting(true);
     try {
       const response = await instance.post(
-        "http://127.0.0.1:8000/api/servicerregister/",
+        "api/servicerregister/",
         {
           first_name,
           last_name,
@@ -74,10 +74,12 @@ function ServicerRegister() {
 
         toast.success("Please activate your email ");
       } else {
-        toast.error("Something went wrong");
+        // toast.error("Something went wrong");
+        toast.error(response.data.msg || "Registration failed. Please try again.");
       }
     } catch (error) {
-      toast.error("Renter with same email id already exists.");
+      console.error("Error:", error);
+      toast.error("An error occurred. Please try again.");
     } finally {
       setIsSubmitting(false); // Set submitting state back to false
     }
